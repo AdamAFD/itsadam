@@ -1,0 +1,887 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Database Administration for DevOps </title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="2a903b04-e19b-4887-bb21-32976f3cc256" class="page sans"><header><img class="page-cover-image" src="Designer_(4).jpeg" style="object-position:center 37.09%"/><div class="page-header-icon page-header-icon-with-cover"><img class="icon" src="database-storage.png"/></div><h1 class="page-title">Database Administration for DevOps </h1><p class="page-description"></p></header><div class="page-body"><figure id="75e68dc0-c809-4435-8458-11a5acd611cd" class="image"><a href="Untitled.gif"><img style="width:720px" src="Untitled.gif"/></a></figure><h2 id="162bee24-9ede-4ad1-854c-79e3ed44c0ef" class=""><strong>
+</strong><strong><mark class="highlight-red">Beginner :</mark></strong></h2><hr id="4f3848dc-6ae3-4288-8d08-8de37e1652c2"/><p id="99df64e9-d069-4486-a36d-584851d61b8a" class=""><mark class="highlight-gray"> Open the toggle to view more details.</mark></p><ul id="1b791e33-aa28-42bd-8151-f37fe66a633f" class="toggle"><li><details open=""><summary><strong>Why do we need a Database Management System (DBMS):</strong></summary><ul id="a851e6d0-ef3f-4609-aedc-ba308d76493c" class="bulleted-list"><li style="list-style-type:disc">Data Organization: DBMS helps in organizing and <strong>structuring </strong>data, making it easier to manage and retrieve.</li></ul><ul id="9a46e6ab-c014-4875-b93d-a507583d5f0a" class="bulleted-list"><li style="list-style-type:disc">Data Security: provides access control and authentication mechanisms to secure data.</li></ul><ul id="5a64416b-ae23-43c4-878c-4a01ec5ba226" class="bulleted-list"><li style="list-style-type:disc">Data Access: offers efficient data retrieval through query optimization </li></ul><ul id="a9ae67d0-0939-4ea4-a9d8-843023b0bc07" class="bulleted-list"><li style="list-style-type:disc">Scalability: can handle growing data volumes and provide mechanisms for scaling.</li></ul><ul id="d28f1775-2d86-48fe-a799-4ae0ea7639ef" class="bulleted-list"><li style="list-style-type:disc">Concurrent Access: allows multiple users to access data simultaneously, ensuring data consistency.</li></ul><ul id="796e6f8c-f7bf-41c1-a89c-39d3ad72c35d" class="bulleted-list"><li style="list-style-type:disc">Data Recovery: offers backup and recovery features to protect data against loss.</li></ul><ul id="930262cf-0dc3-4bee-91af-ad653e7377d6" class="bulleted-list"><li style="list-style-type:disc">Data Models: DBMS supports various data models, including relational, NoSQL, and more.</li></ul></details></li></ul><ul id="bd6829f5-861f-4a5b-841d-c30fd2328fe6" class="toggle"><li><details open=""><summary><strong>Types</strong></summary><ul id="a2f08601-75b3-4386-b3d4-caa0687e482e" class="toggle"><li><details open=""><summary>Relational Databases -SQL</summary><p id="2d638adf-68e4-437e-ae1e-0425c1570115" class=""><strong>Relational Databases</strong>: Use a <strong>structured </strong>format to store data as set of tables which are linked to each other.</p><p id="f7e6f3fa-23f0-4a77-aa60-b23a000baf11" class=""><strong><strong>Relational Database Components:</strong></strong></p><p id="19c1ec4b-d33d-4556-b075-210a94de190b" class=""><strong>Table: </strong>Each table contains various columns and rows just like an excel cheat.</p><p id="29ad3d74-25c6-4c14-a584-9ed5c95fc53c" class=""><strong><strong>Column: </strong></strong>Each column contains one sort of information(int,string),</p><p id="84b2bf11-6887-4424-92d9-0e044a62cb7a" class=""><strong>Row: </strong>Data in a table is recorded in rows. </p><p id="e09f1be9-8b77-4116-83a4-2ff97f565845" class="">
+</p><p id="e5538fe6-f280-4028-ad60-efb5ada32022" class=""><strong>Example: </strong></p><p id="fc0e4dea-dffc-4f6c-923f-3de74010a7e7" class="">1-<strong>Table: Customers:</strong></p><figure id="a66cff4e-9173-462f-a75a-fea775eab95d" class="image"><a href="Untitled.png"><img style="width:823px" src="Untitled.png"/></a></figure><ul id="273b0a42-33b1-4f7d-85df-3763ec9cf397" class="bulleted-list"><li style="list-style-type:disc">This table stores information about <strong>customers </strong></li></ul><ul id="50d28510-b477-4d1d-a2b8-ad0cc0c460e7" class="bulleted-list"><li style="list-style-type:disc">Each column contains one <strong>sort </strong>of information(int,string), such as name, email, phone . </li></ul><ul id="e109338b-4c3a-4a94-8f77-5281be1b5361" class="bulleted-list"><li style="list-style-type:disc">Each row represents a unique customer.</li></ul><p id="8d8a581a-f7aa-433d-b0b8-89192fd8304a" class="">
+</p><p id="70b556a8-fd67-493a-b85c-b0802e80dbdb" class="">  2-<strong>Table: Orders</strong><div class="indented"><p id="31b8dba2-4b63-47f3-99c4-04c82589a875" class="">This table stores information about customer orders. Each order is associated with a customer using the CustomerID field, which is a <strong>foreign key </strong>referencing the Customers table.</p><figure id="df990cc5-dae4-4099-9542-376cab98aaa0" class="image"><a href="Untitled%201.png"><img style="width:819px" src="Untitled%201.png"/></a></figure><p id="7be10a9f-aa87-4e21-ad44-197901833730" class=""><strong>Explanation:</strong></p><p id="3b4f8f67-e8ef-4852-9c2e-751e515a332d" class="">In this example, the &quot;Customers&quot; table contains customer details, and the &quot;Orders&quot; table contains information about customer orders. The relationship between the tables is established through the CustomerID field, which acts as a foreign key in the &quot;Orders&quot; table, referencing the primary key in the &quot;Customers&quot; table.</p><p id="3e96a5f9-f9a4-45ca-ad48-744eb2a0066a" class="">This structure allows you to associate each order with a specific customer, enabling you to perform queries that answer questions like &quot;What orders did John Smith place?&quot; or &quot;Which customers placed orders on a specific date?&quot; This relational structure provides data integrity and flexibility for querying and managing the data.</p><h3 id="afbcfe22-9496-428a-adae-48bdd7c74e87" class="">How data stored in the disk itself?</h3><p id="7edf47c9-b4e4-42f5-84eb-e44ab935d3dd" class="">In SQL, every record is stored in a <strong>fixed-size data page</strong> within a larger file on disk. <strong>Media Descriptor File .mdf</strong></p><figure id="11418c7f-a694-461b-98e0-9bae63473d42" class="image"><a href="Untitled%202.png"><img style="width:837px" src="Untitled%202.png"/></a></figure><p id="310b0bd6-7d7b-4a08-897c-70ba75f33c2f" class="">
+</p><figure id="8ca9bca1-7c3e-4f78-a50d-ac3d813cb026" class="image"><a href="Untitled%203.png"><img style="width:820px" src="Untitled%203.png"/></a></figure><p id="28c74d90-f481-42c1-9c48-627b4ed8c65f" class="">
+</p><h3 id="41d31c8e-ad38-4150-8ecc-8979454f0b49" class="">How do we access the data stored in relational databases?</h3><p id="84156bcc-cc7f-4054-928d-10583a499b9b" class=""><strong>Accessing data from a relational database is typically done using the Structured Query Language (SQL). </strong></p><h3 id="99614694-9331-48a4-957d-52d945356c36" class="">What is SQL?</h3><ul id="f66e954f-9a20-45cf-b2fc-1b2ba1d14776" class="bulleted-list"><li style="list-style-type:disc">SQL stands for Structured Query Language</li></ul><ul id="6566aae7-5efc-4a10-a816-36ba1acaea10" class="bulleted-list"><li style="list-style-type:disc">SQL lets you access and manipulate databases</li></ul><h3 id="7b7415c1-0a96-478f-a836-94991f19cbb4" class="">What Can SQL do?</h3><ul id="f69d18ec-b815-4383-8c63-fd778fd3ba6c" class="bulleted-list"><li style="list-style-type:disc">SQL can retrieve data from a database</li></ul><ul id="0187d51b-bb68-41bc-988e-39d2307e6339" class="bulleted-list"><li style="list-style-type:disc">SQL can execute queries against a database</li></ul><ul id="fac722d9-f86c-4e86-aa12-8c3f55a3f43d" class="bulleted-list"><li style="list-style-type:disc">SQL can insert records in a database</li></ul><ul id="023832e3-e789-48f4-a445-423cf1fc60f5" class="bulleted-list"><li style="list-style-type:disc">SQL can update records in a database</li></ul><ul id="f1f2aaa4-57be-4cab-ada1-729c90d991c1" class="bulleted-list"><li style="list-style-type:disc">SQL can delete records from a database</li></ul><ul id="21880fd4-a500-4c68-b934-4e477d28a3d5" class="bulleted-list"><li style="list-style-type:disc">SQL can create new databases</li></ul><ul id="b1c40977-6db6-4cfb-9cd3-78782fb05448" class="bulleted-list"><li style="list-style-type:disc">SQL can create new tables in a database</li></ul><ul id="3c827a38-2545-4e8e-afb3-f5660843dcf9" class="bulleted-list"><li style="list-style-type:disc">SQL can create stored procedures in a database</li></ul><ul id="0c26e544-a2cb-4730-bfe0-9e53293530c2" class="bulleted-list"><li style="list-style-type:disc">SQL can create views in a database</li></ul><ul id="7c125df1-14a0-4d8e-9fb1-f11207288aa6" class="bulleted-list"><li style="list-style-type:disc">SQL can set permissions on tables, procedures, and views</li></ul><p id="90c1ed01-7329-41f4-bcba-e788ef19adfb" class=""><div class="indented"><p id="12b86881-144b-4192-b591-3a7bff652ff3" class=""><strong>Example of SQL Query:</strong></p><ul id="36ede2a7-0dc2-41b1-8ad9-8b7530a21df0" class="bulleted-list"><li style="list-style-type:disc">Write an SQL query to retrieve the data you need. The most common query for data retrieval is the <code><strong>SELECT</strong></code> statement. For example:</li></ul><pre id="768fcb07-1dc1-45d8-b9c6-136259de468c" class="code code-wrap"><code>
+SELECT FirstName, LastName, Email
+FROM Customers
+WHERE CustomerID = 1;</code></pre><p id="42e3069f-f6aa-4d72-9f01-73f0301e3678" class="">This query selects the first name, last name, and email of the customer with a <code><strong>CustomerID</strong></code> of 1 from the &quot;Customers&quot; table.</p><pre id="662802c2-fc47-4646-9bc9-3d6a51beb9f4" class="code"><code>[
+{
+&quot;FirstName&quot;: &quot;John&quot;,
+&quot;LastName&quot;: &quot;Smith&quot;,
+&quot;Email&quot;: &quot;john.doe@example.com&quot;
+}
+]</code></pre><h2 id="e5b3542a-11a0-4cda-bc6b-29d9edb909a9" class="">the types of data that can be stored in database </h2><table id="284a570f-1e22-48aa-8481-d3a5055be0ed" class="simple-table"><tbody><tr id="8abe6b9d-e361-49ae-bd4f-f00bcdf65c49"><td id="t^B~" class=""><strong>Data Type</strong></td><td id="~orQ" class=""><strong>Description</strong></td><td id="PG@i" class=""><strong>Example</strong></td></tr><tr id="8a6f30f6-b2a7-498b-95dc-242d244c8cfd"><td id="t^B~" class=""><code><strong>INT</strong></code></td><td id="~orQ" class="">Integer (whole numbers)</td><td id="PG@i" class=""><code><strong>42</strong></code></td></tr><tr id="a2433235-05e5-426d-a271-393e5923f2f0"><td id="t^B~" class=""><code><strong>SMALLINT</strong></code></td><td id="~orQ" class="">Small integer</td><td id="PG@i" class=""><code><strong>10</strong></code></td></tr><tr id="d8495840-dbb1-4f8e-8b0c-bea03ae34904"><td id="t^B~" class=""><code><strong>BIGINT</strong></code></td><td id="~orQ" class="">Big integer</td><td id="PG@i" class=""><code><strong>1234567890</strong></code></td></tr><tr id="cb4ac24d-77ec-4dac-87ab-4376ce4483ef"><td id="t^B~" class=""><code><strong>FLOAT</strong></code></td><td id="~orQ" class="">Single-precision floating-point number</td><td id="PG@i" class=""><code><strong>3.14</strong></code></td></tr><tr id="fb3585ed-f5f2-472e-8514-da8d8ea47b2e"><td id="t^B~" class=""><code><strong>DOUBLE</strong></code> or <code><strong>REAL</strong></code></td><td id="~orQ" class="">Double-precision floating-point number</td><td id="PG@i" class=""><code><strong>3.1415926535</strong></code></td></tr><tr id="64ea7626-f2c0-4782-9fa2-274f30d49a6e"><td id="t^B~" class=""><code><strong>DECIMAL</strong></code> or <code><strong>NUMERIC</strong></code></td><td id="~orQ" class="">Fixed-point decimal number</td><td id="PG@i" class=""><code><strong>123.456</strong></code></td></tr><tr id="f06eddbd-3bce-41b1-b545-9bd4bb4567c3"><td id="t^B~" class=""><code><strong>CHAR(n)</strong></code></td><td id="~orQ" class="">Fixed-length character string (length n)</td><td id="PG@i" class=""><code><strong>&#x27;Hello&#x27;</strong></code></td></tr><tr id="034d6f50-ec1a-4be1-ba88-b754f7c03989"><td id="t^B~" class=""><code><strong>VARCHAR(n)</strong></code></td><td id="~orQ" class="">Variable-length character string (max n)</td><td id="PG@i" class=""><code><strong>&#x27;Database&#x27;</strong></code></td></tr><tr id="3a66b5be-ce2a-4320-8903-8be4ffe125ab"><td id="t^B~" class=""><code><strong>TEXT</strong></code></td><td id="~orQ" class="">Variable-length character string (large)</td><td id="PG@i" class=""><code><strong>&#x27;This is a large text field&#x27;</strong></code></td></tr><tr id="e21fa30d-99a7-42ad-a00f-ea8adae18987"><td id="t^B~" class=""><code><strong>DATE</strong></code></td><td id="~orQ" class="">Date (YYYY-MM-DD)</td><td id="PG@i" class=""><code><strong>&#x27;2023-11-30&#x27;</strong></code></td></tr><tr id="37f0d559-90bf-4c94-a5b2-849d317a4b54"><td id="t^B~" class=""><code><strong>TIME</strong></code></td><td id="~orQ" class="">Time (HH:MM:SS)</td><td id="PG@i" class=""><code><strong>&#x27;14:30:00&#x27;</strong></code></td></tr><tr id="d4f22b8b-eb3c-47f7-b3e9-cb0630b9d19d"><td id="t^B~" class=""><code><strong>DATETIME</strong></code> or <code><strong>TIMESTAMP</strong></code></td><td id="~orQ" class="">Date and time</td><td id="PG@i" class=""><code><strong>&#x27;2023-11-30 14:30:00&#x27;</strong></code></td></tr><tr id="d9a44ecc-19d8-4527-a470-5ff4961ceaf8"><td id="t^B~" class=""><code><strong>BOOLEAN</strong></code> or <code><strong>BOOL</strong></code></td><td id="~orQ" class="">Boolean (true/false)</td><td id="PG@i" class=""><code><strong>TRUE</strong></code></td></tr><tr id="e576609f-2af0-4889-8c45-f22e1d412b0e"><td id="t^B~" class=""><code><strong>BINARY(n)</strong></code></td><td id="~orQ" class="">Fixed-length binary data (length n)</td><td id="PG@i" class=""><mark class="highlight-blue"><strong>Binary data</strong></mark></td></tr><tr id="189fb635-fb14-43cb-a4a3-43265aa6ae13"><td id="t^B~" class=""><code><strong>VARBINARY(n)</strong></code></td><td id="~orQ" class="">Variable-length binary data (max n)</td><td id="PG@i" class=""><strong><mark class="highlight-blue">Binary data</mark></strong></td></tr><tr id="4d6c6051-2f47-4a69-9b8f-297f59992dbb"><td id="t^B~" class=""><code><strong>BLOB</strong></code></td><td id="~orQ" class="">Binary Large Object (for large binary data)</td><td id="PG@i" class=""><strong><mark class="highlight-blue">Binary data</mark></strong></td></tr><tr id="4586068b-9ae7-4502-8aa5-832b62935955"><td id="t^B~" class=""><code><strong>ENUM</strong></code></td><td id="~orQ" class="">Enumeration (a set of predefined values)</td><td id="PG@i" class=""><code><strong>&#x27;Red&#x27;</strong></code>, <code><strong>&#x27;Green&#x27;</strong></code>, <code><strong>&#x27;Blue&#x27;</strong></code></td></tr><tr id="0ca76d06-0706-4d36-a3c7-79e5e88d952b"><td id="t^B~" class=""><code><strong>JSON</strong></code></td><td id="~orQ" class="">JSON (JavaScript Object Notation)</td><td id="PG@i" class=""><code><strong>{&quot;key&quot;: &quot;value&quot;}</strong></code></td></tr></tbody></table><h2 id="9e4a0eb2-d272-4961-8646-52a672852167" class="">The database retrieval format </h2><p id="fe39583c-9c6a-492e-9470-5050e04b1cff" class="">In a typical relational database system, the data retrieved from the database is usually in the format specified by the data types of the columns in the queried tables. For example:</p><ul id="832e5e69-fdc6-4c69-aec0-b3814cb3e155" class="bulleted-list"><li style="list-style-type:disc">Columns defined as <code><strong>INT</strong></code> will return integer values.</li></ul><ul id="e7e9079f-3339-4cc6-bc07-38ed66839c13" class="bulleted-list"><li style="list-style-type:disc">Columns defined as <code><strong>VARCHAR</strong></code> will return string values.</li></ul><ul id="0f77453c-9d9a-41fc-8109-7e254d943545" class="bulleted-list"><li style="list-style-type:disc">Columns defined as <code><strong>DATE</strong></code> will return date values.</li></ul><p id="b2524178-0157-4955-b5e2-5ce3b4a51906" class="">If you are retrieving data from a column explicitly defined as <code><strong>JSON</strong></code> or if your <mark class="highlight-blue"><strong>application</strong></mark> processes the data in a way that formats it as JSON, then you will retrieve <strong><mark class="highlight-blue">JSON-formatted data.</mark></strong></p><h3 id="b535f708-2f1d-4b10-95d9-ce926c380f2c" class=""><strong>JSON Response to Client:</strong></h3><p id="b4f56044-968e-43dc-bd88-b73312e8edb9" class="">the formatted JSON data is then sent as the response to the client that originally made the request to the backend server. This JSON response contains the information requested in a format that is commonly used and easily consumable by web applications, mobile apps, or any client application that can interpret JSON.</p><p id="dcf9face-3868-4933-8646-7261cfd51012" class="">This practice of formatting data into JSON serves several purposes:</p><ul id="80d28d36-eee6-4213-873f-b34f4f6d3ab7" class="bulleted-list"><li style="list-style-type:disc"><strong>Ease of Consumption:</strong> JSON is a lightweight and human-readable data interchange format, making it easy for client applications to parse and work with.</li></ul><ul id="0e9ce44e-8ec5-4fb3-8fa7-dee5a2dd486b" class="bulleted-list"><li style="list-style-type:disc"><strong>Compatibility:</strong> JSON is widely supported across various programming languages and platforms, making it a versatile choice for data exchange.</li></ul><ul id="163f99c9-0086-4f80-945a-876a03b53a5d" class="bulleted-list"><li style="list-style-type:disc"><strong>Web APIs:</strong> When building web APIs, JSON is a common choice for representing data structures, providing a standardized way for clients to interact with server endpoints.</li></ul><ul id="c49e46d0-1d34-4998-8649-da280a3aa0ea" class="bulleted-list"><li style="list-style-type:disc"><strong>JavaScript Integration:</strong> Since JSON is a subset of JavaScript, it can be directly consumed by JavaScript code, which is often used in web development.</li></ul><h3 id="a296eb50-ae1e-47b6-a3c5-ddda57ae66f1" class="">Some of The Most Important SQL Commands</h3><ul id="15737dd7-ae77-4f5f-b97e-a244609c474f" class="bulleted-list"><li style="list-style-type:disc"><code>SELECT</code> - extracts data from a database</li></ul><ul id="25f7d907-50dc-4019-aa3e-78c9881b371d" class="bulleted-list"><li style="list-style-type:disc"><code>UPDATE</code> - updates data in a database</li></ul><ul id="ef145b02-ccf2-4cf8-8e4a-81753542b865" class="bulleted-list"><li style="list-style-type:disc"><code>DELETE</code> - deletes data from a database</li></ul><ul id="6e400f0b-e44e-4803-99a2-100bc49992b0" class="bulleted-list"><li style="list-style-type:disc"><code>INSERT INTO</code> - inserts new data into a database</li></ul><ul id="0e8dda96-4bd0-4f94-b3e1-bee3db88332e" class="bulleted-list"><li style="list-style-type:disc"><code>CREATE DATABASE</code> - creates a new database</li></ul><ul id="cd14a2d7-3df2-4363-99f7-fb455d537477" class="bulleted-list"><li style="list-style-type:disc"><code>ALTER DATABASE</code> - modifies a database</li></ul><ul id="141c498a-046b-4b4c-b30c-cfbf6b9f9218" class="bulleted-list"><li style="list-style-type:disc"><code>CREATE TABLE</code> - creates a new table</li></ul><ul id="b503bd10-6e82-4d06-9a17-a8dda08cb1c2" class="bulleted-list"><li style="list-style-type:disc"><code>ALTER TABLE</code> - modifies a table</li></ul><ul id="56e4cc0e-e2ee-48f5-81ef-5568823c58d5" class="bulleted-list"><li style="list-style-type:disc"><code>DROP TABLE</code> - deletes a table</li></ul><ul id="b5f81237-5113-4a48-97be-c605fdd1233b" class="bulleted-list"><li style="list-style-type:disc"><code>CREATE INDEX</code> - creates an index (search key)</li></ul><ul id="7d20ee91-1394-4b25-b515-20cd03599255" class="bulleted-list"><li style="list-style-type:disc"><code>DROP INDEX</code> - deletes an index</li></ul><h2 id="ab3bb27f-556a-4139-9318-98f251179851" class="">Example of RDS :</h2><figure id="ed57d2c6-a0d4-4dc2-bcb8-b1076790c691" class="image"><a href="Untitled%204.png"><img style="width:822px" src="Untitled%204.png"/></a></figure></div></p><p id="b740c9df-1f1c-40db-b388-d279504a8476" class="">
+</p></div></p></details></li></ul><ul id="65f63c0c-d8c6-4297-97c9-13bc99f8479f" class="toggle"><li><details open=""><summary>Non-Relational Databases-NoSQL</summary><h3 id="cfbf1d36-4339-4aa4-81b3-0d1377fde20b" class=""><strong>What is a non-relational database?</strong></h3><p id="f3d2347f-0be3-43b8-8abb-38d9e2af23b8" class="">A non-relational database is a type of database that does not store data in tables. Instead, this type of database uses a hierarchical structure to store data(. Non-relational databases are often used by large businesses and organizations that need to manage complex data.</p><p id="90166a90-d3c1-448d-be89-cb84ba0c8338" class="">
+</p><h2 id="28081f42-8719-4657-89bc-1114e0f4be46" class=""><strong>Types of NoSQL Database</strong></h2><p id="21389390-103d-4847-ac50-ac8684dac20a" class="">There are different types of NoSQL databases, including the following:</p><h3 id="4b748205-e398-4f3d-86c8-f0f3f67fa5ac" class=""><strong>Document store </strong></h3><p id="8c3dfbdc-3f74-45fc-b883-92df4ddf056d" class="">Document store NoSQL databases store data in documents that are similar to <strong>JSON </strong>objects. This allows for the efficient representation and manipulation of complex data structures and relationships. Examples of document store NoSQL databases include <strong>MongoDB </strong></p><h3 id="19f93b2b-e85e-44cf-93c6-c6ff61685135" class="">Example:</h3><pre id="00ac3988-2452-4c91-a6ab-a5379c669402" class="code"><code>[
+  {
+    &quot;CustomerID&quot;: 1,
+    &quot;FirstName&quot;: &quot;John&quot;,
+    &quot;LastName&quot;: &quot;Smith&quot;,
+    &quot;Email&quot;: &quot;john@example.com&quot;,
+    &quot;Phone&quot;: &quot;555-123-4567&quot;
+  },
+  {
+    &quot;CustomerID&quot;: 2,
+    &quot;FirstName&quot;: &quot;Mary&quot;,
+    &quot;LastName&quot;: &quot;Johnson&quot;,
+    &quot;Email&quot;: &quot;mary@example.com&quot;,
+    &quot;Phone&quot;: &quot;555-987-6543&quot;
+  },
+  {
+    &quot;CustomerID&quot;: 3,
+    &quot;FirstName&quot;: &quot;Robert&quot;,
+    &quot;LastName&quot;: &quot;Brown&quot;,
+    &quot;Email&quot;: &quot;robert@example.com&quot;,
+    &quot;Phone&quot;: &quot;555-555-5555&quot;
+  },
+  {
+    &quot;CustomerID&quot;: 4,
+    &quot;FirstName&quot;: &quot;Lisa&quot;,
+    &quot;LastName&quot;: &quot;Davis&quot;,
+    &quot;Email&quot;: &quot;lisa@example.com&quot;,
+    &quot;Phone&quot;: &quot;555-777-8888&quot;
+  }
+]</code></pre><p id="ec48fd0c-68e7-47be-ba6f-56be24e47228" class="">
+</p><h3 id="dc3d89dd-ab53-40e0-90f9-3315682c1630" class=""><strong>Key-value store</strong></h3><p id="4f1c5e1d-0c57-4523-910c-3be855c91640" class="">Key-value store NoSQL databases store data as a set of keys and values. This allows for fast and efficient data access and retrieval, and is well suited for applications that require real-time data access. Examples of key-value store NoSQL databases include <strong>Redis </strong>and <strong>DynamoDB</strong>.</p><figure id="988de418-dbb1-4d0e-b5d4-c660e3e41bec" class="image"><a href="Untitled%205.png"><img style="width:816px" src="Untitled%205.png"/></a></figure><p id="865cacb6-cfdd-4609-a70f-dcb1bfce1305" class="">
+</p><p id="a9ac892b-d08e-4450-8877-a8d1e50bb49c" class="">
+</p></details></li></ul><ul id="f73c1697-2208-4089-bafc-f8642905654b" class="toggle"><li><details open=""><summary>And more </summary></details></li></ul></details></li></ul><ul id="eaede6f7-0df1-4849-8e62-2b78d6852810" class="toggle"><li><details open=""><summary><strong>Query execution flow in terms of server recourses.</strong></summary><h2 id="5ee895dc-ae93-438f-9a61-108d216c7001" class="">The resources that databases relay on :</h2><ol type="1" id="0e3e1a53-e8da-4624-80bb-727b085470ff" class="numbered-list" start="1"><li><strong>RAM (Random Access Memory):</strong><ul id="460ea330-4e7b-4910-a291-03fd6214ae3c" class="bulleted-list"><li style="list-style-type:disc">RAM is a type of volatile memory in a computer that stores data that is actively being used or processed.</li></ul><ul id="2795b9ac-dad9-4a98-a125-77ca27623f65" class="bulleted-list"><li style="list-style-type:disc">In the context of databases, RAM is used for caching frequently accessed data, query results, and other database operations to speed up data retrieval and processing.</li></ul><ul id="9ad7f16b-1c7b-4552-aee1-0092468448ce" class="bulleted-list"><li style="list-style-type:disc">Larger RAM sizes in database servers can lead to better query performance by reducing the need to fetch data from slower disk storage.</li></ul></li></ol><ol type="1" id="057edc59-9462-4f28-8951-bcbcd4099f65" class="numbered-list" start="2"><li><strong>Disk I/O (Input/Output):</strong><ul id="6679fd5f-29e1-4da8-92c6-20fdfb81b1f0" class="bulleted-list"><li style="list-style-type:disc">Disk I/O refers to the read and write operations between the computer&#x27;s storage devices (e.g., hard drives or SSDs) and memory.</li></ul><ul id="26879d0a-72a3-4e8d-a0db-d1e33b934607" class="bulleted-list"><li style="list-style-type:disc">In the context of databases, disk I/O is a critical factor for database performance, as it determines how quickly data can be read from and written to storage.</li></ul><ul id="22746b83-934b-47c2-b369-edaa5f01e259" class="bulleted-list"><li style="list-style-type:disc">Efficient <strong>disk I/O</strong> is essential for database operations, especially for data retrieval, indexing, and transaction log writes.</li></ul></li></ol><ol type="1" id="c56f73a0-ef5a-4c48-bc0c-72665debe6cf" class="numbered-list" start="3"><li><strong>CPU (Central Processing Unit):</strong><ul id="cecce162-0e4e-4518-8582-8e964bab2843" class="bulleted-list"><li style="list-style-type:disc">The<strong> </strong>CPU is the brain of the computer, responsible for executing instructions and computations.</li></ul><ul id="f4869638-a197-4a97-8df2-e343a90fa197" class="bulleted-list"><li style="list-style-type:disc">In the context of databases, the CPU is used for query processing, data transformation, indexing, and other computational tasks.</li></ul><ul id="7bc13c60-c413-41ea-9e21-227e99a82f88" class="bulleted-list"><li style="list-style-type:disc"><strong>High CPU performance</strong> is crucial for running complex queries and processing large volumes of data efficiently.</li></ul><h3 id="f83fa41d-09b4-4a1e-9102-31afbb1be944" class="">What happens when you request a query from a web application to the database ?(SQL-Exec-lifecycle)</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8f10a35b-759f-415e-b3db-46a97f43ab81"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Let&#x27;s walk through a simplified example of how a SQL query interacts with the server&#x27;s resources. Suppose we have a relational database with a &quot;products&quot; table containing information about various products. We want to retrieve the names of all products priced under $50. Here&#x27;s a step-by-step breakdown of what happens:</div></figure><ol type="1" id="01aa11aa-ab9a-4204-8079-483201f2cd26" class="numbered-list" start="1"><li><strong>SQL Query Submission:</strong><ul id="7746e0be-32cc-4fa2-80eb-89947d42b567" class="bulleted-list"><li style="list-style-type:disc">The client application sends an SQL query to the database server. The query might look like this:<pre id="6678b79e-721a-4253-bc66-7cb23b545e29" class="code code-wrap"><code>SELECT product_name FROM products WHERE price &lt; 50;
+</code></pre></li></ul></li></ol><ol type="1" id="c065f739-1f9f-46be-a73c-96e5923fa1c8" class="numbered-list" start="2"><li><strong>Query Parsing:</strong><ul id="d600c0ec-2430-4ca4-bfcb-95959f35f2ab" class="bulleted-list"><li style="list-style-type:disc">The database server parses the SQL query to ensure it has the correct syntax and structure. This involves CPU usage.</li></ul></li></ol><ol type="1" id="38c0b163-aedb-4d08-b35d-1f20e54e97eb" class="numbered-list" start="3"><li><strong>Query Optimization:</strong><ul id="f3e10703-d835-4714-80e0-373a1528f45b" class="bulleted-list"><li style="list-style-type:disc">The <strong>query optimizer</strong> analyzes the query and creates an execution plan. It determines how to access the data most efficiently. This is a <strong>CPU-intensive</strong> process.</li></ul></li></ol><ol type="1" id="f4d0f56b-b084-414a-9bec-fa3e0168347c" class="numbered-list" start="4"><li><strong>Data Retrieval from Disk:</strong><ul id="e90fdd20-b124-4c61-9274-b322b4f3b99d" class="bulleted-list"><li style="list-style-type:disc">When the required data is not in RAM, the database server needs to fetch it from the disk. This involves reading the relevant table or index pages from the storage device. <strong>Disk I/O </strong>is a relatively slow operation compared to accessing data from RAM, so it can introduce significant latency.</li></ul></li></ol><ol type="1" id="b8d28c79-4f08-4f34-b04a-d4a465a2b808" class="numbered-list" start="5"><li><strong>Data Transfer to RAM:</strong><ul id="3b9f2c98-c499-4c55-831e-328a275da5fb" class="bulleted-list"><li style="list-style-type:disc">Once the data is retrieved from the disk, it is loaded into <strong>RAM</strong>, where subsequent query processing can occur much more quickly. This step is necessary to make the data available for further processing.</li></ul></li></ol><ol type="1" id="9934653a-24fe-44e8-8abf-5109006c282e" class="numbered-list" start="6"><li><strong>Data Processing in RAM:</strong><ul id="a7e3a0b5-d8ea-4623-ae61-790d1cfbdfce" class="bulleted-list"><li style="list-style-type:disc">After the data is in RAM, the CPU can process it efficiently. Filtering, sorting, and other query operations are performed with data in memory, leading to faster execution compared to performing these operations on disk-resident data.</li></ul></li></ol><ol type="1" id="579b95b6-4007-4154-82d9-f453251a031b" class="numbered-list" start="7"><li><strong>Result Set Formation and Transmission:</strong><ul id="d1c3f734-ccb6-47eb-bc66-ee5d70b809db" class="bulleted-list"><li style="list-style-type:disc">Once the result set is ready, the database server sends the results back to the backend server over the network. </li></ul></li></ol><p id="4d607c88-47e2-47a2-be4f-633844af3bbe" class="">7.1 <strong>Data Formatting to JSON by Backend Application:</strong><div class="indented"><ul id="7ed4aac3-64ef-449e-b8ec-39bf200991f9" class="bulleted-list"><li style="list-style-type:disc">The backend application receives the result set and formats the data into JSON. This step involves converting the structured data from the database into a<strong> JSON format </strong>suitable for consumption by client applications. </li></ul></div></p><ol type="1" id="f1f38030-8649-455a-b76e-c01f00225c0e" class="numbered-list" start="8"><li><strong>JSON Response to Client:</strong><ul id="e0f17838-51d8-4e92-9784-e00689993d5a" class="bulleted-list"><li style="list-style-type:disc">The formatted JSON data is then sent as a response to the client that originally requested the data.</li></ul></li></ol><figure id="769e8735-ab62-4f22-80fb-903d1a0018aa" class="image"><a href="Untitled%206.png"><img style="width:720px" src="Untitled%206.png"/></a></figure><p id="06c08c84-c391-4abf-8fbb-7ed991fb0a4a" class="">
+</p></li></ol></details></li></ul><ul id="6c0d4795-7027-470d-8b6b-5c5667ab06f1" class="toggle"><li><details open=""><summary><strong>What makes a database better than other </strong></summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="55eae948-b02e-4ca5-bce1-8dcf1f5107be"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">As an <strong>example </strong>Amazon <strong><mark class="highlight-red">Aurora </mark></strong>delivers over 500,000 SELECTs/sec and 100,000 UPDATEs/sec, <strong>five times higher than MySQL</strong> running the same benchmark on the same hardware. in cloud providers like AWS we use managed databases that already configured and optimized based on multiple factors , but <strong>on premise infrastructure</strong> you literally would manage everything 🤦🏻 so you will need some basic knowledge about how things are working outside of cloud ! .</div></figure><p id="63217d1b-da62-4511-b0b5-e67ad140573b" class="">There are several factors that can make one database perform better than another, even when using <strong>similar resources</strong>. Here are some of the key factors that can contribute to one database being faster or more efficient than another:</p><ol type="1" id="fd944607-93fd-4624-8d45-be1e79137531" class="numbered-list" start="1"><li><strong>Optimized Database Engine:</strong> Some database systems are designed and optimized to perform better than others. For example, Amazon Aurora is a managed database service that is specifically optimized for high performance and availability. It uses a distributed and fault-tolerant architecture, which can make it faster and more resilient compared to a standalone MySQL database.</li></ol><ol type="1" id="59088177-0fdb-4b55-99a3-1ac7be63f014" class="numbered-list" start="2"><li><strong>Database Configuration:</strong> The way a database system is configured can have a significant impact on its performance. Tweaking configuration parameters, such as buffer sizes, query optimization settings, and indexing strategies, can improve database performance.</li></ol><ol type="1" id="09e4f540-8f79-4328-b19e-48a1eba21049" class="numbered-list" start="3"><li><strong>Query Optimization:</strong> The efficiency of query processing can greatly influence a database&#x27;s speed. Some database systems have more advanced query optimization mechanisms, which can lead to faster execution of complex queries.<figure id="0c51eac3-593f-4b11-a842-30457cc49370" class="image"><a href="Untitled%207.png"><img style="width:819px" src="Untitled%207.png"/></a></figure></li></ol></details></li></ul><ul id="51a0e27b-3b43-4d86-82a2-9dfd13a6f019" class="toggle"><li><details open=""><summary><strong>Database performance issues</strong> </summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="66b6652e-a34a-44c8-8d3c-70c6e84ea0e2"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Database performance issues can arise from various factors, including server resources and poorly optimized queries ,networking. Let&#x27;s explore each of these aspects and provide examples of both bad and good queries.</div></figure><h3 id="d6308692-f6b9-46fb-8174-3381841da091" class="">1. Server Resources:   </h3><p id="64f4f3fb-e80d-4b92-a6e4-9163ae7d5e3f" class="">Database performance heavily relies on the available server resources, such as CPU, memory, and disk I/O. Inadequate server resources can lead to slow query execution times, increased response times, and overall poor database performance. Here are some examples:</p><h3 id="4e7bf2a3-e3df-4a2b-ba40-18ec8567bc98" class="">2. query optmization problems:</h3><p id="342f478c-426a-4f37-a223-f02c5c10eaf6" class=""><strong>Bad Query Example:</strong></p><pre id="14c1696e-3fdf-4bfb-8761-311754ad91f1" class="code code-wrap"><code>
+SELECT * FROM huge_table WHERE status = &#x27;active&#x27;;
+
+</code></pre><p id="5ce4d3c6-dfe1-4948-872a-d380f9711f58" class="">In this example, the query fetches all columns from a table with a large number of records. Retrieving all columns when not needed consumes excessive server resources and bandwidth, leading to slow query execution and increased server load.</p><p id="53d2be0a-deca-406a-843b-3f7875ff5047" class=""><strong>Good Query Example:</strong></p><pre id="ad699147-7046-49be-affa-3462ca02c3d4" class="code code-wrap"><code>
+SELECT id, name FROM huge_table WHERE status = &#x27;active&#x27;;
+
+</code></pre><p id="851662d5-a436-442d-b85a-e49a70fce13d" class="">In this improved query, only the necessary columns (id and name) are selected, reducing resource consumption and improving query performance.</p><h3 id="b1a77c62-5016-41e7-b6cd-292f9e9add4e" class="">3. Network Latency:  </h3><p id="938eb851-6d7a-4273-9be3-afd954c643e8" class="">If the database server is located remotely or accessed over a network, network latency can become a bottleneck. Slow network connections or high latency can result in delays when transferring data between the application and the database server. Minimizing network latency can be achieved by optimizing network infrastructure, using caching mechanisms, or considering database replication strategies.</p><p id="5add1215-c909-43d5-a947-cba53b88a9c1" class="">
+</p><p id="fca5d3ee-2b8f-41f6-9991-f54c126dd8e0" class=""><strong>and more </strong></p><p id="978689ec-f7a8-498d-8189-2b79b8363619" class="">
+</p></details></li></ul><ul id="d4cd5c57-0c2f-491c-b77c-9d5aa363974d" class="toggle"><li><details open=""><summary><strong>How applications connect to Database</strong></summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="244d9dd3-f004-4915-875f-35da565b529c"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Applications connect to databases using various methods and protocols, depending on the type of database system and the programming languages or frameworks being used. Here&#x27;s a general overview of how applications connect to databases:</div></figure><ol type="1" id="2fa5d37e-508b-451f-a472-08bbccfd2c73" class="numbered-list" start="1"><li><strong>Database Connection Libraries:</strong> Most programming languages provide libraries or drivers that enable applications to establish connections to specific database systems. These libraries are used to interact with the database, send queries, and retrieve results. Common database libraries include:<ul id="25266e82-d044-49ee-a1a7-b613a138c04c" class="bulleted-list"><li style="list-style-type:disc"><strong>For SQL Databases:</strong> Examples include JDBC for Java, ADO.NET for .NET languages, psycopg2 for Python, and various libraries for different languages that support SQL databases like MySQL, PostgreSQL, or Oracle.</li></ul><ul id="cfab45bd-ac1c-4d0d-b04d-ae9ff71b96fd" class="bulleted-list"><li style="list-style-type:disc"><strong>For NoSQL Databases:</strong> NoSQL databases often have their own libraries and client drivers for different programming languages. For example, MongoDB has drivers for Node.js, Python, and many other languages.</li></ul></li></ol><ol type="1" id="774b5d8b-ea9c-4be5-aeba-a974bb8b6879" class="numbered-list" start="2"><li><strong>Connection Strings or Configuration:</strong> To establish a connection, applications typically provide connection details through a connection string or configuration settings. These details include the database server&#x27;s address (hostname or IP), port number, authentication credentials (username and password), and database name (if applicable)</li></ol><pre id="31780a06-ad50-422c-8d47-092de43ccc80" class="code code-wrap"><code>postgresql://username:password@localhost:5432/mydatabase</code></pre><p id="17b2123d-2f02-493a-8e15-b02e1d3e2658" class="">In this connection string:</p><ul id="c68d26dc-c280-4471-a6af-1bc1a72ea4be" class="bulleted-list"><li style="list-style-type:disc"><code>postgresql://</code> indicates the database driver to use (PostgreSQL in this case).</li></ul><ul id="727bc534-b013-4b22-8e22-9c2055994342" class="bulleted-list"><li style="list-style-type:disc"><code>username</code> is the username for authentication.</li></ul><ul id="7c129570-390d-49d5-9e63-f53ae44e1528" class="bulleted-list"><li style="list-style-type:disc"><code>password</code> is the password for authentication.</li></ul><ul id="f1ac3bf1-ba93-4c9d-bef1-9185a5231d86" class="bulleted-list"><li style="list-style-type:disc"><code>localhost</code> is the hostname or IP address of the database server.</li></ul><ul id="fd93cd3f-fce6-428e-8b71-f012e57723c4" class="bulleted-list"><li style="list-style-type:disc"><code>5432</code> is the port number on which the PostgreSQL server is listening (the default port for PostgreSQL).</li></ul><ul id="fcbc8459-be67-4695-b59a-452f510677ce" class="bulleted-list"><li style="list-style-type:disc"><code>mydatabase</code> is the name of the database you want to connect to.</li></ul><ol type="1" id="878fc99d-3844-4254-b802-58fcec4f5b13" class="numbered-list" start="1"><li><strong>Security and Authorization:</strong> Access to the database is controlled by user credentials and permissions. The application&#x27;s connection details should provide the necessary authentication and authorization information to access the database.</li></ol><ol type="1" id="2ff826c0-b45f-498d-a59d-2d13d0168544" class="numbered-list" start="2"><li><strong>Python Example (SQL Database - PostgreSQL):</strong><p id="db3dcb4c-3b61-4f45-b9fb-ea10ca1aa106" class="">In this example, we&#x27;ll use the <code><strong>psycopg2</strong></code> library to connect to a PostgreSQL database.</p><pre id="d4fc8345-beab-4183-9ad8-b650c55b80cc" class="code code-wrap"><code>pythonCopy code
+import psycopg2
+
+# Connection parameters
+db_params = {
+    &#x27;dbname&#x27;: &#x27;mydatabase&#x27;,
+    &#x27;user&#x27;: &#x27;myuser&#x27;,
+    &#x27;password&#x27;: &#x27;mypassword&#x27;,
+    &#x27;host&#x27;: &#x27;localhost&#x27;,
+    &#x27;port&#x27;: &#x27;5432&#x27;
+}
+
+# Establish a database connection
+connection = psycopg2.connect(**db_params)
+
+# Create a cursor for executing SQL queries
+cursor = connection.cursor()
+
+# Execute a simple query
+cursor.execute(&#x27;SELECT * FROM mytable&#x27;)
+
+# Fetch and print the query result
+result = cursor.fetchall()
+for row in result:
+    print(row)
+
+# Close the cursor and the connection
+cursor.close()
+connection.close()</code></pre></li></ol><h3 id="5bbbbe46-5862-4abc-96c5-53c84f662647" class="">Database environment variables :</h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="b9ce5905-188b-49e9-9eaa-fae0d4086efd"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Every database has its own environment variables, <strong><mark class="highlight-blue">environment variables</mark></strong> are often used to configure database connections and other runtime settings for applications. Using environment variables for configuration provides <mark class="highlight-red"><strong>flexibility</strong></mark>, <mark class="highlight-red"><strong>security</strong></mark>, and ease of management compared to <strong>hardcoding </strong>configuration values directly into application <strong>code like we did above</strong></div></figure><h3 id="dbb3ddf2-3222-47e3-a4ff-6011a462fe57" class=""><strong>Here&#x27;s how applications typically use environment variables to connect to a PostgreSQL database:</strong></h3><h3 id="35b94872-3903-4f0c-8ecd-3421d008b45e" class=""><strong>2. </strong><strong>Setting Environment Variables:</strong></h3><ul id="31cfe3ca-899e-4646-85f5-aa13bf441cf3" class="bulleted-list"><li style="list-style-type:disc">we can set environment variables in local development environment or production. For example, using the command line in Unix/Linux:<pre id="e02120fe-f547-47d9-a5e1-af6311e194ad" class="code code-wrap"><code>
+export PGHOST=&quot;localhost&quot;
+export PGPORT=&quot;5432&quot;
+export PGUSER=&quot;your_username&quot;
+export PGPASSWORD=&quot;your_password&quot;
+export PGDATABASE=&quot;your_database&quot;</code></pre></li></ul><h3 id="3d2b5a0a-0ced-49e1-b951-1588f2e2334a" class="">3<strong>. Application Code:</strong></h3><p id="a51783f7-faeb-4ca9-9426-45d131d3bc75" class=""><strong>taking variables </strong><mark class="highlight-red"><strong>values </strong></mark><strong>from the </strong><mark class="highlight-blue"><strong>host</strong></mark></p><p id="1be1e5f8-f470-4bb9-be2c-38d9e1daab15" class="">Instead of hardcoding database connection parameters in the application code, developers reference these environment variables. For example, in a Node.js application using the <code><strong>pg</strong></code> library:</p><pre id="b34e106b-4fe3-48cb-8a53-99ef3b694f26" class="code code-wrap"><code>javascriptCopy code
+const { Pool } = require(&#x27;pg&#x27;);
+
+const pool = new Pool({
+  host: process.env.PGHOST,
+  port: process.env.PGPORT,
+  user: process.env.PGUSER,
+  password: process.env.PGPASSWORD,
+  database: process.env.PGDATABASE,
+});</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="f0146052-ac8e-4ead-831b-3df7b61d4382"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">in many cases you will use  <strong>.env file </strong>that you specify the environment variables in and we put it in the main directory of the application and the developer configure the application to take the environment variables from <mark class="highlight-blue"><strong>.env file</strong></mark></div></figure><figure id="b304d5e3-1003-4c2c-8eee-ead26126cbdf" class="image"><a href="Untitled%208.png"><img style="width:930px" src="Untitled%208.png"/></a></figure><h2 id="f4ba400f-6d9a-4ce6-852f-38038b9d5be8" class="">code <mark class="highlight-default"><strong>example:</strong></mark></h2><p id="a6bcf779-bb0c-4d86-805c-97a478aed7c9" class="">C# <strong>application entry point, load the environment variables using </strong><mark class="highlight-red"><strong>DotNetEnv </strong></mark><strong>library:</strong></p><pre id="04b4d939-44e2-48c0-bd9f-4f89c39541f5" class="code code-wrap"><code>using System;
+using DotNetEnv;
+using Npgsql;
+
+class Program
+{
+    static void Main()
+    {
+        // Load environment variables from .env file
+        DotEnv.Load();
+
+        // Access PostgreSQL environment variables
+        string postgresPassword = Environment.GetEnvironmentVariable(&quot;POSTGRES_PASSWORD&quot;);
+        string postgresDB = Environment.GetEnvironmentVariable(&quot;POSTGRES_DB&quot;);
+        string postgresUser = Environment.GetEnvironmentVariable(&quot;POSTGRES_USER&quot;);
+
+        // Establish a PostgreSQL connection
+        string connectionString = $&quot;Host=localhost;Port=5432;Database={postgresDB};Username={postgresUser};Password={postgresPassword}&quot;;
+        using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+        {
+            connection.Open();
+            Console.WriteLine(&quot;Connected to PostgreSQL!&quot;);
+        }
+    }
+}</code></pre></details></li></ul><ul id="3f12d9dc-142b-428d-b783-6a1c19ef74fe" class="toggle"><li><details open=""><summary><strong>Database administration as a DevOps engineer (Install ,Configure ,Manage)</strong></summary><ul id="8c3845d4-89cc-4409-b537-e879471fb4ca" class="toggle"><li><details open=""><summary><strong><strong>PostgreSQL</strong></strong></summary><ul id="8fae7e2f-8ff9-4545-914f-b62b6f1b9f1f" class="toggle"><li><details open=""><summary><strong>Install PostgreSQL on Ubuntu</strong></summary><p id="ae48b3ad-87f7-462f-82c7-961af823fe24" class="">1.<strong>It is always better to download the latest version available in the official PostgreSQL Ubuntu repository.</strong></p><pre id="11c90975-3dcf-4c87-bdec-f8f2b9a981d1" class="code code-wrap"><code>
+sudo sh -c &#x27;echo &quot;deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main&quot; &gt; /etc/apt/sources.list.d/pgdg.list&#x27;
+
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+sudo apt-get update</code></pre><p id="af92c99a-47df-4c41-a8b0-bb0886ae6623" class=""><strong>2.Install the latest version of PostgreSQL</strong></p><pre id="043b5c60-7358-4657-a0e7-c1b75f11ebab" class="code code-wrap"><code>sudo apt-get -y install postgresql</code></pre><p id="bbea32fa-3668-49e0-b33b-5dbf0cffff19" class=""><strong>3.Validate PostgreSQL by checking the service status.</strong></p><pre id="89baa66b-9a5a-4002-852b-e5ab97db3d01" class="code code-wrap"><code>sudo systemctl status postgresql</code></pre><figure id="f76fef60-22a7-4989-9a88-07535948fd41" class="image"><a href="Untitled%209.png"><img style="width:624px" src="Untitled%209.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3b4459e4-a85d-4d91-8377-3677ff2a2b94"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">note : 
+ the root user is :             <mark class="highlight-blue"><strong>postgres
+ </strong></mark><mark class="highlight-default">the root password is:</mark><mark class="highlight-blue"><strong>      postgres</strong></mark></div></figure><p id="51372f87-ff12-4bd5-a99e-a6221c33e095" class="">
+<strong>4.Connect to PostgreSQL &amp; Change Password</strong></p><p id="ff609d86-e9ba-44ec-add1-52780e2ff195" class="">You can connect to the PostgreSQL server using the <code>psql</code> client</p><p id="473f5f0d-fda7-4d61-a40c-89d662055f76" class="">When you install PostgreSQL, the <code>psql</code> client also gets installed.</p><pre id="facb18af-eb9b-422f-97b4-8bbaea8a4394" class="code"><code>sudo -u postgres psql</code></pre><figure id="014843b0-2621-46f1-83ff-c116e29948ac" class="image"><a href="Untitled%2010.png"><img style="width:624px" src="Untitled%2010.png"/></a></figure><p id="f3ebf9d6-f376-486c-8388-b189fc43e7f8" class=""><strong>5.check the version of PostgreSQL using the following command.</strong></p><pre id="fbfd70ed-9bbe-47d6-a43c-47896a701484" class="code"><code>SELECT version();</code></pre><figure id="e199a5b6-3eda-4099-9dbb-445f70e0d78c" class="image"><a href="Untitled%2011.png"><img style="width:1351px" src="Untitled%2011.png"/></a></figure><p id="e7d9118b-ebb6-4690-a316-a2e8b7896efb" class=""><strong>6.To exit postgres server </strong></p><pre id="2a42fe8f-24fe-4951-bdc9-321364d474ec" class="code"><code>exit </code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="bb48e6b3-c21d-498f-abde-d2439aabbfb4"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"> <strong>important values and directory locations</strong></div></figure><p id="1d03d99f-cb71-4993-914f-df9e8ea1a11d" class="">
+</p><table id="6dfc17d0-f974-4e85-87e1-d7df1a5f0222" class="simple-table"><tbody><tr id="8389d94c-3586-48d3-9648-f7d032f9bdc6"><td id="_FXc" class=""><mark class="highlight-red"><strong>Config Details</strong></mark></td><td id="HvyF" class="" style="width:257.96250915527344px"><mark class="highlight-blue"><strong>Values</strong></mark></td></tr><tr id="2586e63e-47c0-4a48-a9d0-4f441b2bc437"><td id="_FXc" class="">PostgreSQL default port</td><td id="HvyF" class="" style="width:257.96250915527344px">5432</td></tr><tr id="112ab7bd-9656-4793-a0e5-08a757f72a6e"><td id="_FXc" class="">Default user</td><td id="HvyF" class="" style="width:257.96250915527344px">postgres</td></tr><tr id="a1f60e37-8c23-4e73-9f2f-878f120958f8"><td id="_FXc" class="">Default password </td><td id="HvyF" class="" style="width:257.96250915527344px">postgres</td></tr><tr id="c11b3039-cd16-445f-b9c6-f20313556dcb"><td id="_FXc" class="">Config files directory    </td><td id="HvyF" class="" style="width:257.96250915527344px">/etc/postgresql/postgresql.conf</td></tr><tr id="d6fa4bf7-57e1-4a5b-9231-72f051db0f58"><td id="_FXc" class="">Config files directory    </td><td id="HvyF" class="" style="width:257.96250915527344px">/etc/postgresql/pg_hba.conf</td></tr><tr id="e116c3dd-778a-4bb5-9387-91b8858b2597"><td id="_FXc" class="">Default database          </td><td id="HvyF" class="" style="width:257.96250915527344px">postgres</td></tr><tr id="05f822d6-7d48-40f9-a842-3db86c0a39fb"><td id="_FXc" class="">Default data directory    </td><td id="HvyF" class="" style="width:257.96250915527344px">/var/lib/postgresql</td></tr><tr id="512c2b27-3e8a-432a-b2f9-328c3ab7e43b"><td id="_FXc" class="">Default logs directory</td><td id="HvyF" class="" style="width:257.96250915527344px">/var/log/postgresql</td></tr></tbody></table></details></li></ul><ul id="4a9dd075-5481-4f30-b2a2-a57f8986f480" class="toggle"><li><details open=""><summary><strong>Basic Administrations commands </strong></summary><h3 id="428e7d59-c578-41f9-8b49-d3608a29a89b" class="">                             <strong>Basic administration commands</strong></h3><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3ce97963-6fde-4a05-bf8a-312257b0a8db"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Note: Make sure to replace <code>adam</code>with the appropriate PostgreSQL username. Also, ensure that you have the necessary privileges to perform these operations.</div></figure><p id="24ffa0cd-d2a6-41af-8f8c-119061887bfb" class="">1<strong>. Create a New Database:</strong></p><pre id="ab2d4fbd-05ee-4bbf-ada8-19a379ea2989" class="code code-wrap"><code>CREATE DATABASE mydatabase;</code></pre><p id="4939f36c-c8bd-416f-ac18-f7b95dc5ec12" class="">2<strong>. Delete a Database:</strong></p><pre id="778e386c-d572-42a0-9c88-2d9947d22a38" class="code code-wrap"><code>DROP DATABASE mydatabase;</code></pre><p id="25fd1d66-5ecb-4bdd-8c63-08695a348ff8" class=""><strong>4. Create a New User:</strong></p><pre id="73fd422a-efa8-4eac-a2bd-bb11bca813ff" class="code code-wrap"><code>CREATE USER adam WITH PASSWORD &#x27;password&#x27;;
+CREATE DATABASE mydatabase;
+GRANT ALL PRIVILEGES ON DATABASE mydatabase TO adam;</code></pre><p id="218f1d79-d8c2-47a0-88d0-a3388ad7da47" class=""><strong>5. Delete a User:</strong></p><pre id="03c10142-3b1e-42cb-8d20-2d381b39e7e2" class="code code-wrap"><code>DROP USER adam;</code></pre><p id="d92e71af-5afa-42ee-a69d-c3f44891c505" class=""><strong>6. Change Password:</strong></p><pre id="9d34bc47-b47a-41bb-9ce0-35fc76e93a65" class="code code-wrap"><code>ALTER USER adam WITH PASSWORD &#x27;newpassword&#x27;;</code></pre><p id="f32f7537-f128-48d4-a391-f3565fee1ae6" class=""><strong>7. Grant and Revoke Privileges:</strong></p><pre id="68ed9bdb-8516-4a38-9a39-c1fa29e667cb" class="code code-wrap"><code>-- Grant all privileges on all tables in the database
+GRANT ALL PRIVILEGES ON DATABASE mydatabase TO adam;
+
+-- Revoke all privileges on all tables in the database
+REVOKE ALL PRIVILEGES ON DATABASE mydatabase FROM adam;</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="cbd0081c-bfad-463a-89eb-a3fd7cffe706"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">be careful with the privileges that you give to users on databases </div></figure><figure id="b0ab58fb-ff4a-4128-bd1f-ace071aa5e0f" class="image"><a href="Untitled%2012.png"><img style="width:867px" src="Untitled%2012.png"/></a></figure><pre id="c4ae13d5-3e73-4d34-93cc-c7e7c5fc6d1f" class="code"><code>-- Grant SELECT and INSERT privileges on a table
+GRANT SELECT, INSERT ON table_name TO user_name;
+
+-- Grant all privileges on a table
+GRANT ALL PRIVILEGES ON table_name TO user_name;
+
+-- Grant USAGE privilege on a schema
+GRANT USAGE ON SCHEMA schema_name TO user_name;
+
+-- Grant EXECUTE privilege on a function
+GRANT EXECUTE ON FUNCTION function_name(arg1_type, arg2_type) TO user_name;</code></pre><p id="cddbed48-75bc-42f5-a0a4-df3a42a00b84" class="">8<strong>. Change the root password:</strong></p><pre id="878ed5cb-6a12-48cb-a911-8d29bc52f391" class="code code-wrap"><code>ALTER USER postgres WITH PASSWORD &#x27;newpassword&#x27;;</code></pre><p id="0b409239-efd0-4928-9cf3-fcb2a10278a3" class="">9<strong>. stop , start PostgreSQL :</strong></p><pre id="e48621ae-b349-47ae-9b7b-aa9fab5676f4" class="code code-wrap"><code>sudo systemctl stop  postgresql
+
+sudo systemctl start postgresql </code></pre><p id="de1b3941-63a7-43cc-bef7-945c6fcfb8d0" class=""><strong>10. List Databases:</strong></p><pre id="07fee32d-019d-4afd-b431-8ea747e4520e" class="code code-wrap"><code>\l</code></pre><p id="0e227bb9-e44c-47e4-be6d-99c7702b517f" class=""><strong>11. List Users:</strong></p><pre id="03030585-c42c-4860-b826-115656d4bae3" class="code code-wrap"><code>SELECT usename FROM pg_user;
+
+or 
+
+\du</code></pre><figure id="1e0c3777-6e74-4a12-b0b6-b3003c71a5af" class="image"><a href="Untitled%2013.png"><img style="width:672px" src="Untitled%2013.png"/></a></figure><p id="58bedad2-5955-4b25-ba16-ed82481e1544" class=""><strong>11. Backup and Restore:(from database server itself)</strong></p><p id="76457865-821a-46f0-8562-056fecfbb470" class="">For PostgreSQL, you can use the <code>pg_dump</code> and <code>psql</code> commands for backup and restore, </p><ul id="18e45e8a-9cd4-4232-aae3-4a3cbe168dad" class="bulleted-list"><li style="list-style-type:disc">To backup a database:</li></ul><pre id="ffa68283-e5c6-4a80-bad2-da715d40f0bf" class="code code-wrap"><code>pg_dump -U adam -d mydatabase &gt; mydatabase_backup.sql</code></pre><ul id="d3e5a667-fe5a-4e32-bcfd-870cefdd06ec" class="bulleted-list"><li style="list-style-type:disc">To restore a database from a backup:</li></ul><pre id="eda17e7e-8225-4c51-be78-641ec61e2589" class="code code-wrap"><code>psql -U adam -d mydatabase &lt; mydatabase_backup.sql</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2de1c3dd-e3fb-4257-85b8-9b8c44811f9e"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">To perform a backup to your database , logically you need these privileges!</div></figure><ol type="1" id="d4d17bba-ad67-4bb0-b162-a4f20ffb674d" class="numbered-list" start="1"><li><strong>Backup Privileges</strong>:<ul id="c02f99fb-6759-4157-807e-10c1c40b707c" class="bulleted-list"><li style="list-style-type:disc"><code><strong>SELECT</strong></code> privilege on tables: To read the data from tables.</li></ul><ul id="bfcdf24b-6123-4ff5-96e6-4e16763f776e" class="bulleted-list"><li style="list-style-type:disc"><code><strong>USAGE</strong></code> privilege on sequences: To read values from sequences if your tables use them.</li></ul><ul id="f12319b1-1592-4f30-b8cc-2756350645a3" class="bulleted-list"><li style="list-style-type:disc"><code><strong>CONNECT</strong></code> privilege on the database: To connect to the database.</li></ul><p id="22a8f520-d4cc-479d-a0fb-6b49c919f3eb" class="">Example:</p><pre id="12b49b73-2acb-4eee-91f2-2ce5e7347fb9" class="code code-wrap"><code>sqlCopy code
+GRANT SELECT, USAGE ON ALL TABLES IN SCHEMA public TO your_user;
+GRANT CONNECT ON DATABASE your_database TO your_user;</code></pre></li></ol><ol type="1" id="b751fef9-dec8-4446-a2ac-c97d216c89f6" class="numbered-list" start="2"><li><strong>Restore Privileges</strong>:<ul id="21440efa-82a2-43ec-9c23-afc206328e46" class="bulleted-list"><li style="list-style-type:disc"><code><strong>CREATE</strong></code> privilege on the database: To create a new database, if you are restoring into a new database.</li></ul><ul id="80535ac4-21e3-4cd0-b7c6-6171e8518c5c" class="bulleted-list"><li style="list-style-type:disc"><code><strong>CONNECT</strong></code> privilege on the database: To connect to the database.</li></ul><ul id="fe70270b-23de-4bcd-9571-0c2824f02f6a" class="bulleted-list"><li style="list-style-type:disc"><code><strong>CREATE</strong></code> privilege on schema: To create new tables and other objects in the schema.</li></ul><ul id="014a9a5c-9524-4198-8066-a27fa55959ee" class="bulleted-list"><li style="list-style-type:disc"><code><strong>USAGE</strong></code> privilege on sequences: To set the sequence values.</li></ul><p id="788c0f6d-9ccc-4aac-9cbe-1e542ba9be15" class="">Example:</p><pre id="ec5e7d0b-b6bc-4358-85d4-1aed269516f0" class="code code-wrap"><code>sqlCopy code
+GRANT CREATE, CONNECT ON DATABASE your_database TO your_user;
+GRANT CREATE ON SCHEMA public TO your_user;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO your_user;</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5ab37a2b-da7c-49ca-be55-27d56e011f79"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Please adjust these privileges based on your specific use case and security considerations. If you are restoring into an existing database, you may need additional privileges, and it&#x27;s generally <strong>recommended </strong>to have a user with <mark class="highlight-red"><strong>superuser </strong></mark>privileges for such operations.</div></figure></li></ol></details></li></ul><ul id="45fbd9a4-5249-4671-85a6-09b86ef85663" class="toggle"><li><details open=""><summary><strong><strong>Remote Connection Configuration</strong></strong></summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="09b7e906-f9b0-41a8-88f0-07231b86bc6b"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">By default, the PostgreSQL server is configured to only allow connections from the localhost (127.0.0.1) and through the Unix socket on port <mark class="highlight-red"><strong>5432</strong></mark>. Consequently, remote connections to the PostgreSQL server are restricted, and access is limited to the Ubuntu server where PostgreSQL is installed.</div></figure><p id="5a68b09e-53bd-4b2d-afcf-535bde5f9b6a" class="">You can verify it by listing all the TCP connections using the <code>ss</code> -nlt</p><figure id="39e21d60-ee4c-47b1-a658-448da1425506" class="image"><a href="Untitled%2014.png"><img style="width:1590px" src="Untitled%2014.png"/></a></figure><p id="3943bca5-fdba-448c-bf62-d95fe13a20ed" class="">To enable remote connection to PostgreSQL, we need to allow it in the postgresql.conf file.,in <mark class="highlight-blue"><strong>CONNECTIONS AND AUTHENTICATION </strong></mark></p><pre id="1433fc3c-2bd3-4ed3-86d3-c80fd64920ee" class="code code-wrap"><code>postgresql.conf
+
+is located in
+
+/etc/postgresql/16/main/      #cause we are using postgresql:16</code></pre><ol type="1" id="30201bdf-776a-4989-9200-b35c6b9e47ed" class="numbered-list" start="1"><li><strong>Open the file </strong><strong><code>postgresql.conf</code></strong><strong> file.</strong></li></ol><pre id="f2899d0b-6609-4abd-adec-00b80ff65009" class="code code-wrap"><code>sudo vi /etc/postgresql/16/main/postgresql.conf</code></pre><figure id="0ae32930-f1f5-4b69-844a-3ad373f3b675" class="image"><a href="Untitled%2015.png"><img style="width:1166px" src="Untitled%2015.png"/></a></figure><p id="27a0e94a-2ee3-47e9-9a4f-678d6d98017f" class="">
+</p><p id="31cd0844-64ca-4a10-97d3-cbe64338be2a" class="">in <mark class="highlight-red"><strong>listen_addresses</strong></mark> Replace the existing configuration with the following <mark class="highlight-red"><strong>‘*’ </strong></mark>and remove the # to enable the effect of the configurationand save the file. With this updated configuration, PostgreSQL server connections are configured to accept connections from all IP addresses.</p><figure id="b622a274-6722-4822-a925-7a7c6c3f5a72" class="image"><a href="Untitled%2016.png"><img style="width:260px" src="Untitled%2016.png"/></a></figure><p id="eb31afc4-8410-4281-ba12-5c78095e0f6b" class="">2.To apply the change, restart the PostgreSQL service.</p><pre id="4a528e18-52ed-4dc9-9b73-4319c76299e1" class="code code-wrap"><code>sudo systemctl restart postgresql</code></pre><p id="81d2ba54-3a6c-44cb-86a6-a99c31f18258" class="">3.run <mark class="highlight-red"><strong>ss-nlt  ,,</strong></mark><mark class="highlight-blue"><strong>its 0.0.0.0:5432</strong></mark></p><figure id="31f21ac0-bbdc-4ad0-a531-a37a8125bd8c" class="image"><a href="Untitled%2017.png"><img style="width:943px" src="Untitled%2017.png"/></a></figure><p id="d3dda661-673c-416b-abfb-1f64ef426bf7" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="39544bcc-b2ee-45ac-ae24-bae216bfa967"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>we have allowed the connection to the database from all ips , we need to allow </strong><mark class="highlight-red"><strong>client </strong></mark><strong>connectivity </strong></div></figure><p id="40f6b623-8af6-4b64-9617-1b6bb358c1c8" class="">To allow client connections to database, you need to edit the <strong>pg_hba.conf</strong> file.</p><p id="4682863c-7f6e-4225-8ba3-26a289b1583d" class="">Open <strong>pg_hba.conf</strong> file.</p><pre id="411588ea-d017-4322-9251-e950487f9f61" class="code code-wrap"><code>sudo vi /etc/postgresql/16/main/pg_hba.conf</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="6ccf933d-4589-4a38-8dbd-d18b71734ef0"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">If you want to specify a particular database in the <code><strong>pg_hba.conf</strong></code> file for a certain host and authentication method, you can do so by adding the database name as an additional field. The format is as follows:</div></figure><p id="881b0f1a-e48a-4cec-95b3-bb66c18a867d" class="">Here&#x27;s an example how we specify a specific the configuration </p><pre id="b42548d6-5a72-4db7-80f4-5183ef6b703a" class="code code-wrap"><code>host      database_name    user_name    IP_address    authentication_method
+Example:
+host       mydatabase        adam        0.0.0.0/0            md5</code></pre><figure id="056c68c7-ba47-4d29-9be8-ca979ae88690" class="image"><a href="Untitled%2018.png"><img style="width:923px" src="Untitled%2018.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="5439b3e3-2ada-4cd7-a431-1f62c2ffcaa9"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">                                  
+if you are using cloud you will need to open port <mark class="highlight-red"><strong>5432 </strong></mark>in the security group as an inbound rule </div></figure><figure id="4277d842-9334-4b7f-88e7-228f113532f7" class="image"><a href="Untitled%2019.png"><img style="width:1460px" src="Untitled%2019.png"/></a></figure><h3 id="26fc54ba-0a59-4c45-a5ba-3c88fefaa438" class="">
+                           <strong><strong>Test PostgreSQL Remote Connection</strong></strong></h3><p id="2c94bc0a-d9a2-4769-9ba1-52a311312542" class="">First, install the PostgreSQL client on the system you are trying to connect to the PostgreSQL server. and make sure its version is the same as the server version </p><p id="c94ac424-b495-42c3-a119-728cb3308e54" class="">or you will get an error like this </p><figure id="29bc7406-285f-45ec-bc51-cd7b498025bf" class="image"><a href="Untitled%2020.png"><img style="width:1541px" src="Untitled%2020.png"/></a></figure><p id="7c058d98-9ebb-4046-8767-3ef80ecfee12" class="">For Ubuntu,</p><pre id="81a7d45a-39a0-4075-b05f-b24781de6119" class="code code-wrap"><code>sudo apt-get install postgresql-client-16</code></pre><p id="c5426e09-142f-4e22-9bec-6948e2d69228" class="">Once you have installed the client, use the following <code><strong>psql</strong></code> command to connect to the PostgreSQL server remotely. Replace <mark class="highlight-red"><strong>&quot;ip&quot;</strong></mark> with the IP address of your PostgreSQL server. When prompted for a password, enter the password that was generated during the initial configuration.</p><pre id="cce78a49-eafb-4b4a-a0b2-9a980cd832b2" class="code"><code>psql -h ip -d mydatabase -U adam</code></pre><figure id="dcafcebb-61ad-4dc6-82f6-20e00d9f3d2d" class="image"><a href="Untitled%2021.png"><img style="width:1282px" src="Untitled%2021.png"/></a></figure><h3 id="53a7590e-31fd-46a9-a0c4-9afb9213e883" class="">Taking remote backup</h3><pre id="b960e5e4-5402-4543-97e1-9a401cba06f4" class="code"><code>pg_dump -h 35.93.147.219 -U adam -d mydatabase -F c -f backupss_file.dump</code></pre><p id="0ac8f57a-779f-408a-9bfd-d8c6b95c5a95" class="">Here&#x27;s the breakdown of the command:</p><ul id="8e5e4616-4023-4479-b693-1608bc252e17" class="bulleted-list"><li style="list-style-type:disc"><code><strong>h 35.93.147.219</strong></code>: Specifies the host where the PostgreSQL server is running.</li></ul><ul id="5b2f2054-9903-414d-8cf4-6cf566c5af01" class="bulleted-list"><li style="list-style-type:disc"><code><strong>U adam</strong></code>: Specifies the username to connect to the PostgreSQL database.</li></ul><ul id="e8f08f22-9013-4565-9c4c-91af82a9c648" class="bulleted-list"><li style="list-style-type:disc"><code><strong>d mydatabase</strong></code>: Specifies the name of the database to be backed up.</li></ul><ul id="c561e630-8ced-4137-a2e0-df6ddb92f177" class="bulleted-list"><li style="list-style-type:disc"><code><strong>F c</strong></code>: Specifies the format of the output file. In this case, it&#x27;s in custom format.</li></ul><ul id="3a43a4fa-3c3d-4bc7-9c94-1b79ff7fb4a6" class="bulleted-list"><li style="list-style-type:disc"><code><strong>f backupss_file.dump</strong></code>: Specifies the name of the file to which the backup will be written.</li></ul><p id="215077bf-3166-4b0e-840d-25e6ea43479d" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="41b3d9d0-63e0-4b7e-be0e-4230a24af6db"><div style="font-size:1.5em"><span class="icon">🚫</span></div><div style="width:100%">I prefer to use <strong>a management tool for </strong><mark class="highlight-red"><strong>PostgreSQL </strong></mark><mark class="highlight-default"><strong>to see everything in visualized structures for </strong></mark><span style="border-bottom:0.05em solid"><mark class="highlight-default"><strong>learning peruse</strong></mark></span><mark class="highlight-default"><strong>, in </strong></mark><mark class="highlight-blue"><strong>production </strong></mark><mark class="highlight-default"><strong>we use the client connection with specified cider of ips and we do it with a server in the local network in case it&#x27;s an </strong></mark><mark class="highlight-blue"><strong>on premises</strong></mark><mark class="highlight-default"><strong> infrastructure , and with server located in a private subnet in case you are using cloud provider like </strong></mark><mark class="highlight-blue"><strong>AWS</strong></mark></div></figure><figure id="0c0b977e-4fb7-4632-bf0a-3ee247a39537" class="image"><a href="Untitled%2022.png"><img style="width:1920px" src="Untitled%2022.png"/></a></figure><figure id="0ce0e062-5414-4757-b734-cb900491d1ee" class="image"><a href="Untitled%2023.png"><img style="width:1920px" src="Untitled%2023.png"/></a></figure></details></li></ul><ul id="44f9fe80-e9b8-4f8b-86d6-e5c5eb11a0a2" class="toggle"><li><details open=""><summary><strong>PostgreSQL general configurations(DB-tuning)</strong></summary><h2 id="1acf28ea-9c7f-4b71-8699-6d2b4baff6b4" class="">Database Tuning:</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="13e9aca5-8c6a-4b70-8a28-e10f06eff040"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong><mark class="highlight-red">Database tuning</mark></strong> refers to the process of optimizing a database system to improve its performance, efficiency, and overall responsiveness. The goal of tuning is to ensure that the database can handle a given workload effectively and deliver timely responses to queries and transactions. Tuning involves adjusting various <strong>configuration settings</strong>, schema design, and query optimization to achieve optimal performance. Here are key aspects of database tuning:</div></figure><ol type="1" id="93319aa2-e6f8-4e44-b52e-a3352724842a" class="numbered-list" start="1"><li><strong>Configuration Settings:</strong><ul id="b89ba634-e48d-4cae-9f17-d5882036da3e" class="bulleted-list"><li style="list-style-type:disc">Adjusting parameters in the database configuration file (e.g., <code><strong>postgresql.conf</strong></code> in the case of PostgreSQL) to optimize memory usage, connection limits, caching, and other system-specific settings.</li></ul></li></ol><ol type="1" id="0b12be8c-9ff6-4cf9-8d87-788556f27f0b" class="numbered-list" start="2"><li><strong>Indexing:</strong><ul id="b2c949fd-d85a-4bda-8c1f-028d020d4d62" class="bulleted-list"><li style="list-style-type:disc">Creating and optimizing indexes on tables to speed up data retrieval operations. Indexes help the database engine locate and retrieve specific rows more efficiently.</li></ul></li></ol><ol type="1" id="b50ecb08-1612-4aee-a5bf-180600a76d5d" class="numbered-list" start="3"><li><strong>Query Optimization:</strong><ul id="c7087475-4173-4517-a647-94303823568a" class="bulleted-list"><li style="list-style-type:disc">Analyzing and optimizing the SQL queries used by applications. This may involve rewriting queries, adding hints to guide the query planner, or restructuring the database schema to better suit the application&#x27;s needs.</li></ul></li></ol><ol type="1" id="9831a68b-0cee-4db2-906e-bc18e48fa4f2" class="numbered-list" start="4"><li><strong>Normalization and Denormalization:</strong><ul id="dbfe6740-f0c7-431d-8c08-2663efe0a8d6" class="bulleted-list"><li style="list-style-type:disc">Adjusting the database schema through normalization (breaking down tables to reduce redundancy) or denormalization (combining tables to improve query performance). The choice depends on the specific requirements and usage patterns of the application.</li></ul></li></ol><ol type="1" id="c9b2f3b7-6c9c-45ec-ba0d-b006920eb17c" class="numbered-list" start="5"><li><strong>Data Partitioning:</strong><ul id="adc373fd-60f1-4828-bf78-ea23a8e56028" class="bulleted-list"><li style="list-style-type:disc">Dividing large tables into smaller, more manageable partitions. This can improve query performance, especially for tables with a large volume of data.</li></ul></li></ol><ol type="1" id="9079911a-99e0-4410-845e-4dde14d3d8b3" class="numbered-list" start="6"><li><strong>Storage Configuration:</strong><ul id="d02d5b53-6f0f-4670-a6b5-3b1ae6ea47db" class="bulleted-list"><li style="list-style-type:disc">Configuring storage systems, including choosing the right storage type (e.g., SSDs vs. HDDs), optimizing file placement, and configuring storage parameters to match the database workload.</li></ul></li></ol><ol type="1" id="0ed6ef50-556f-410b-8504-10681824cff9" class="numbered-list" start="7"><li><strong>Concurrency Control:</strong><ul id="b000b27d-caf3-47ad-ad71-39faec3b038a" class="bulleted-list"><li style="list-style-type:disc">Adjusting settings related to concurrent access and transactions to ensure that the database can handle multiple connections and transactions efficiently.</li></ul></li></ol><ol type="1" id="75a76a29-588d-4078-8e64-3b449e70d982" class="numbered-list" start="8"><li><strong>Regular Monitoring:</strong><ul id="2f4c768b-0ff7-4319-a93b-d4787ad3ccd8" class="bulleted-list"><li style="list-style-type:disc">Implementing monitoring tools to track database performance over time. Monitoring helps identify bottlenecks, analyze trends, and anticipate issues before they impact the system.</li></ul></li></ol><ol type="1" id="25e1ed17-b471-4096-9f99-4761cd2cd583" class="numbered-list" start="9"><li><strong>Hardware Considerations:</strong><ul id="b11a76c4-0ba7-4425-90df-493b41650f50" class="bulleted-list"><li style="list-style-type:disc">Considering and optimizing the hardware on which the database runs. This may involve scaling up resources (e.g., CPU, RAM) or distributing the workload across multiple servers.</li></ul></li></ol><p id="d6ad69a7-3dbf-4bf6-809b-6056952544c8" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="d2db3b57-1ece-4a9d-b337-2b22c7d5f641"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">As a DevOps managing a PostgreSQL database, you&#x27;ll often need to work with the <code><strong>postgresql.conf</strong></code> file, which is the main configuration file for PostgreSQL. Here are some key configurations to be aware of ,and they are <strong>25 </strong>parameters out of more than <strong>300 parameters available </strong>🤦🏻</div></figure><ol type="1" id="4364f925-0a35-4a0f-9672-4821af3f9af6" class="numbered-list" start="1"><li><strong>Listen Addresses</strong>:<ul id="93f92e67-f267-4753-8e79-ce21875781d8" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameter:</strong> <code><strong>listen_addresses</strong></code></li></ul><ul id="5380b2f8-e50a-40c9-978d-92c85c791302" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Specifies the IP addresses or hostnames on which the PostgreSQL server will listen for incoming connections.</li></ul></li></ol><ol type="1" id="f54fea7d-efaf-4a5b-b008-5d9bb0d6a8da" class="numbered-list" start="2"><li><strong>Port</strong>:<ul id="70354080-49a5-4fc1-a421-5156caf47dc7" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameter:</strong> <code><strong>port</strong></code></li></ul><ul id="f5f99432-a1c4-4db2-9c9b-1529cd627183" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Specifies the TCP port on which the PostgreSQL server will listen for connections.</li></ul></li></ol><ol type="1" id="5ceedc1c-ed04-4431-b097-16942e72d6a2" class="numbered-list" start="3"><li><strong>Max Connections</strong>:<ul id="27ced84e-fddb-48d6-8e59-77f5a9597c53" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameter:</strong> <code><strong>max_connections</strong></code></li></ul><ul id="aff945f1-0ada-4e93-ad1b-84c05a6371f6" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Sets the maximum number of concurrent connections that can be established to the database server.</li></ul></li></ol><ol type="1" id="c2a664b3-9172-4420-9580-e30eb1057397" class="numbered-list" start="4"><li><strong>Authentication Methods</strong>:<ul id="930efab3-ff32-4deb-a41d-4d15a3fd608b" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameter:</strong> <code><strong>authentication_timeout</strong></code>, <code><strong>password_encryption</strong></code>, <code><strong>ssl</strong></code>, <code><strong>ssl_cert_file</strong></code>, <code><strong>ssl_key_file</strong></code></li></ul><ul id="20b30474-d4e3-4000-b20a-7e63e2c2eb03" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Controls how clients are authenticated and whether SSL is used for secure connections.</li></ul></li></ol><ol type="1" id="e5dd226d-f17b-4d7f-b77e-58253f3d3c2b" class="numbered-list" start="5"><li><strong>Memory Configuration</strong>:<ul id="faccc6ef-a891-49fa-b780-523e2d985605" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>shared_buffers</strong></code>, <code><strong>work_mem</strong></code>, <code><strong>maintenance_work_mem</strong></code></li></ul><ul id="b13989f2-02d0-4216-9259-d709cfea5d24" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Controls the amount of memory PostgreSQL uses for various purposes, such as caching data, performing sorting, and executing maintenance operations.</li></ul></li></ol><ol type="1" id="ba3180d9-818a-4dbd-bd29-bff446edf4ad" class="numbered-list" start="6"><li><strong>Checkpoint Configuration</strong>:<ul id="c12f744f-502d-48f8-a6f1-be92cd0568d2" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>checkpoint_timeout</strong></code>, <code><strong>checkpoint_completion_target</strong></code>, <code><strong>max_wal_size</strong></code></li></ul><ul id="a7f74475-6588-4e4a-af8b-b7fc6944a447" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Manages the frequency and efficiency of automatic checkpoints.</li></ul></li></ol><ol type="1" id="2303d4a8-4ad3-4d49-bf28-546ce193750e" class="numbered-list" start="7"><li><strong>Logging Configuration</strong>:<ul id="d12b64d4-b03e-465e-80e1-f8af9df34515" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>log_statement</strong></code>, <code><strong>log_directory</strong></code>, <code><strong>log_filename</strong></code>, <code><strong>log_rotation_age</strong></code>, <code><strong>log_rotation_size</strong></code></li></ul><ul id="aae34d1e-3cb2-4f92-86ea-3ba60effb2da" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Configures logging of SQL statements and server messages.</li></ul></li></ol><ol type="1" id="e787f9a3-7947-4857-a485-7b770a09ebe9" class="numbered-list" start="8"><li><strong>Query Tuning</strong>:<ul id="a587a1b9-ce1a-4353-a7ff-ad879ee760be" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>effective_cache_size</strong></code>, <code><strong>random_page_cost</strong></code>, <code><strong>seq_page_cost</strong></code></li></ul><ul id="9a1c7018-ea47-4b1e-8674-2dfce2c8d36c" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Influences the query planner&#x27;s decisions in terms of cost estimates.</li></ul></li></ol><ol type="1" id="537f2053-2fc0-4950-8bf8-b729c5ee0dbd" class="numbered-list" start="9"><li><strong>Connection Pooling</strong>:<ul id="02bbce75-c7ff-469e-8ae7-a3f714a0d99b" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>max_pool_size</strong></code>, <code><strong>max_connections</strong></code>, <code><strong>connection_pooling</strong></code>, <code><strong>statement_timeout</strong></code></li></ul><ul id="4362060d-d243-46e6-8af2-ae305f1a4c30" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Settings related to connection pooling and handling of idle connections.</li></ul></li></ol><ol type="1" id="5116939e-32ab-4f7d-a426-93fdffea7c90" class="numbered-list" start="10"><li><strong>Replication</strong>:<ul id="80d311ce-881e-4d30-9d9d-9ac67a66380c" class="bulleted-list"><li style="list-style-type:disc"><strong>Parameters:</strong> <code><strong>wal_level</strong></code>, <code><strong>max_wal_senders</strong></code>, <code><strong>wal_keep_segments</strong></code></li></ul><ul id="7a834007-e9e6-45d1-bedd-74477f33f5fa" class="bulleted-list"><li style="list-style-type:disc"><strong>Description:</strong> Configures replication settings if you are setting up streaming replication.
+</li></ul><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c2e07a33-6a9d-460c-aa26-d719e34d4b4e"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Let&#x27;s consider a few PostgreSQL configuration parameters that can impact performance and demonstrate a before-and-after scenario. Keep in mind that the optimal values for these parameters depend on various factors, including your <strong>hardware</strong>, <strong>workload</strong>, and specific use case. It&#x27;s recommended to test and adjust these configurations based on your environment before trying it in production </div></figure><h3 id="ca35e2d5-4e56-4cdc-888f-8bb166a1585b" class=""><mark class="highlight-red"><strong>Before Configuration Changes:</strong></mark></h3><pre id="49002d8c-2cd7-4c41-9924-2b3ab2d184c4" class="code code-wrap"><code># postgresql.conf
+max_connections = 100
+shared_buffers = 128MB
+effective_cache_size = 4GB
+work_mem = 4MB
+maintenance_work_mem = 64MB
+checkpoint_completion_target = 0.7
+max_wal_size = 1GB</code></pre><h3 id="9d4816eb-83eb-47ee-ae9e-60a7a03d88fb" class=""><mark class="highlight-blue"><strong>After Configuration Changes:</strong></mark></h3><pre id="7480f6db-b946-49a6-91ba-e8bc5a4dc1db" class="code code-wrap"><code># postgresql.conf
+max_connections = 200  
+shared_buffers = 2GB  
+effective_cache_size = 8GB  
+work_mem = 16MB  
+maintenance_work_mem = 128MB  
+checkpoint_completion_target = 0.9  
+max_wal_size = 2GB </code></pre><h3 id="fc319cf9-68f7-4c0d-862d-691f9151b2c4" class=""><strong>Impact and Explanation:</strong></h3><ol type="1" id="467fbdf6-76dc-4c44-b411-a18847cf90be" class="numbered-list" start="1"><li><strong>Max Connections:</strong><ul id="31046ba7-0ee9-4cf2-bcfb-26f1ec6a8c66" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> Limited to 100 connections.</li></ul><ul id="9881b866-6a11-4d6f-a0ce-6d4bc6244c7b" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 200 connections to accommodate higher demand.</li></ul><ul id="ea271e33-2294-4fb2-bd27-5c3d9e67ad57" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>max_connections</code> determines the maximum number of concurrent connections to the database server. Increasing this value allows more clients to connect simultaneously. However, it&#x27;s important to consider the system&#x27;s resources because each connection consumes memory and other resources.</li></ul></li></ol><ol type="1" id="e3f6f217-9619-4a46-9485-cd7ccb1504df" class="numbered-list" start="2"><li><strong>Shared Buffers:</strong><ul id="3c9f73c4-d945-47e6-b013-b4ea5f92c621" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 128MB.</li></ul><ul id="13cc95d1-bd15-40ff-8420-e3e9e9e7fc76" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 2GB for better caching and improved performance.</li></ul><ul id="20568816-a1ce-454f-9a11-23748125cbf9" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>shared_buffers</code> sets the amount of memory allocated for caching data in shared memory. Increasing this parameter can enhance performance by reducing disk I/O since more data can be stored in memory. However, setting it too high may lead to resource contention, so it should be balanced with available system memory.</li></ul></li></ol><ol type="1" id="88bd872a-1c2e-402f-ab08-b0b07136a637" class="numbered-list" start="3"><li><strong>Effective Cache Size:</strong><ul id="247d0b10-793b-45c1-a038-bc12cbf3837c" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 4GB.</li></ul><ul id="3fe13248-82d4-4979-a114-f6b8c77c6f15" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Adjusted based on available system memory (8GB).</li></ul><ul id="ba6c619a-827d-4b7e-a824-b9a9f4774536" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>effective_cache_size</code> is an estimate of how much memory is available for caching within the operating system, including shared_buffers. It helps the query planner make informed decisions about how to execute queries efficiently. Setting it to an appropriate value ensures that the planner has an accurate estimate of available cache.</li></ul></li></ol><ol type="1" id="6fc43829-e509-423a-9ae1-e3b8cbb9546e" class="numbered-list" start="4"><li><strong>Work Mem:</strong><ul id="34a46e8b-a652-4023-b722-2449eef8c150" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 4MB.</li></ul><ul id="054f4b9b-dcf4-44e9-8f13-23bd09d90b36" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 16MB for handling larger sorting operations.</li></ul><ul id="c9cad80e-6d03-4b33-9450-80bd5fc0628e" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>work_mem</code> determines the amount of memory allocated for each operation performed by a query, such as sorting and hashing. A higher value allows for larger in-memory operations, which can be beneficial for complex queries. However, setting it too high may lead to increased memory usage and potential contention.</li></ul></li></ol><ol type="1" id="bc34f54b-b590-4d84-9ac5-53d33ca854ac" class="numbered-list" start="5"><li><strong>Maintenance Work Mem:</strong><ul id="8a2df347-1355-4889-a0ad-04e4a9ade846" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 64MB.</li></ul><ul id="6cb1222d-81ce-4b55-a4d2-24ac84686a7c" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 128MB for more memory during maintenance operations.</li></ul><ul id="73bf1f24-6e04-4178-9185-98ee7510cdc5" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>maintenance_work_mem</code> sets the amount of memory used by maintenance operations, such as VACUUM, CREATE INDEX, and ALTER TABLE ADD FOREIGN KEY. Increasing this parameter can speed up these operations, but, similar to <code>work_mem</code>, it should be balanced with available system resources.</li></ul></li></ol><ol type="1" id="09157042-16c0-4e41-a9a5-696112a1b2b6" class="numbered-list" start="6"><li><strong>Checkpoint Completion Target:</strong><ul id="f97e7a43-a204-40d4-ae00-25f0007676be" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 0.7.</li></ul><ul id="71cf9a11-75ee-4114-97c5-1b42912ba729" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 0.9 for more aggressive checkpoints.</li></ul><ul id="432807a3-4e4c-45c1-b046-6a832d5c53a1" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>checkpoint_completion_target</code> sets the target fraction of time the system should spend writing data and WAL (Write-Ahead Logging) information during a checkpoint. A higher value makes checkpoints more aggressive, reducing the time spent on I/O operations during checkpoints.</li></ul></li></ol><ol type="1" id="bd55acce-2afe-42e9-a58a-d7e4a1d85c47" class="numbered-list" start="7"><li><strong>Max WAL Size:</strong><ul id="9f60bdcf-1e48-406b-ba6c-0793193b81a5" class="bulleted-list"><li style="list-style-type:disc"><strong>Before:</strong> 1GB.</li></ul><ul id="b3b345e5-98c7-4a87-8580-eba35ee54dd5" class="bulleted-list"><li style="list-style-type:disc"><strong>After:</strong> Increased to 2GB for larger Write-Ahead Logging transactions.</li></ul><ul id="79eeb8ba-7fbf-49d6-b0e5-45576800a8b3" class="bulleted-list"><li style="list-style-type:disc"><strong>Explanation:</strong> <code>max_wal_size</code> determines the maximum size of the Write-Ahead Log. A larger value allows for more significant transactions to be logged, which is important for durability. However, setting it too high may result in longer recovery times.</li></ul></li></ol><p id="84b4e715-7f39-4232-ab53-e6861167d03d" class="">These parameter adjustments should be made carefully, considering the specific requirements and resources of your PostgreSQL environment. Regular monitoring and testing are essential to ensure optimal performance.</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="18c4eb3c-14ce-4012-b0c7-33c3c87bae96"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">here is a site that gives you some recommendations for your database configuration file <mark class="highlight-red"><strong>postgresql.conf  </strong></mark><mark class="highlight-default"><strong>based on your server resources </strong></mark><p id="e6b46a64-1d29-4630-94f5-1b8bd4454d1c" class=""><mark class="highlight-pink"><strong><a href="https://pgtune.leopard.in.ua/">https://pgtune.leopard.in.ua/</a></strong></mark></p></div></figure><figure id="d0b3399c-84bb-460f-9040-cf73758b5ee6" class="image"><a href="Untitled%2024.png"><img style="width:1292px" src="Untitled%2024.png"/></a></figure></li></ol></details></li></ul><ul id="68a7ac5d-c98b-41f1-b72e-bcb528c97d23" class="toggle"><li><details open=""><summary><strong>PostgreSQL logs </strong></summary><p id="66ed9736-7f76-410b-9638-d6a36d880462" class="">What are the logs ? </p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="63fd709e-7207-490c-8d0e-09baf02d6ec2"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Database logs are records of changes made to a database. These logs capture a chronological sequence of database operations, including <strong>inserts</strong>, <strong>updates</strong>, <strong>deletes</strong>, and other transactions. The purpose of database logs is to provide a mechanism for recovery, replication, and auditing.</div></figure><h2 id="3ca3261c-466f-42b7-8dce-294fb58b207d" class=""><strong>How do we utilize database logs:</strong></h2><ol type="1" id="7fdb986d-a279-4687-94c6-0c9949328872" class="numbered-list" start="1"><li><strong>Replication:</strong><ul id="1c9a49d2-3675-4dca-902c-79a1865df14f" class="bulleted-list"><li style="list-style-type:disc"><strong>Data Replication:</strong> Database logs are often used in database replication processes. By replaying the logs on a secondary database server, you can keep the secondary database synchronized with the primary one. This is commonly used for creating high-availability setups or for distributing read traffic.</li></ul></li></ol><ol type="1" id="95a4d064-7e7b-48d4-b16b-aa1e271089ff" class="numbered-list" start="2"><li><strong>Auditing:</strong><ul id="4eaf37de-0af8-4bb6-a3dc-bd8ad1a242cc" class="bulleted-list"><li style="list-style-type:disc"><strong>Transaction Auditing:</strong> Database logs help in auditing database activities. You can track who performed which operations on the database and when. This is valuable for security and compliance purposes.</li></ul></li></ol><ol type="1" id="891826f2-4ace-4e5e-b2d6-c559b25959df" class="numbered-list" start="3"><li><strong>Performance Tuning:</strong><ul id="5c7c25d5-8b60-4fc9-877d-f6e06cf20284" class="bulleted-list"><li style="list-style-type:disc"><strong>Query Analysis:</strong> Database logs can be used to analyze the performance of queries. By examining the logs, you can identify slow or inefficient queries and optimize them for better performance.</li></ul></li></ol><ol type="1" id="41b79675-e47e-4531-b241-7e23d0d6bdf4" class="numbered-list" start="4"><li><strong>Troubleshooting:</strong><ul id="66c27fa2-f25b-4957-a8b6-e1ca4b4cee02" class="bulleted-list"><li style="list-style-type:disc"><strong>Issue Diagnosis:</strong> When unexpected behavior occurs in a database, logs can be valuable for diagnosing issues. For example, if a transaction fails, the logs may contain information about the error, allowing administrators to understand and address the problem.</li></ul></li></ol><ol type="1" id="6a7dc9f9-bc99-41bb-a3cc-71df7e032acf" class="numbered-list" start="5"><li><strong>Transaction Rollback:</strong><ul id="7f332e62-eae7-47f3-9c12-189770daa794" class="bulleted-list"><li style="list-style-type:disc"><strong>Rollback Operations:</strong> If a transaction encounters an error or needs to be canceled, the database logs can be used to roll back the transaction to maintain data consistency.</li></ul></li></ol><p id="ef1c9c21-9576-4bba-804c-7d3e1eb92f75" class="">Different database management systems have their own mechanisms for managing logs. Some common database systems, such as MySQL, PostgreSQL, provide tools and commands to view and manage database logs. </p><h2 id="3e02a875-a7bd-4f06-8abe-59566ed5936e" class=""><strong>Log Levels:</strong></h2><ul id="edf98099-cc72-44f9-91ad-d12f66833376" class="bulleted-list"><li style="list-style-type:disc">PostgreSQL supports different log levels, including<mark class="highlight-blue"> </mark><mark class="highlight-blue"><strong>DEBUG</strong></mark><mark class="highlight-blue">, </mark><mark class="highlight-blue"><strong>INFO</strong></mark><mark class="highlight-blue">, </mark><mark class="highlight-blue"><strong>NOTICE</strong></mark><mark class="highlight-blue">, </mark><mark class="highlight-blue"><strong>WARNING, ERROR, LOG</strong></mark>, and <mark class="highlight-blue"><strong>FATAL</strong></mark>. You can configure the level of detail you want in the logs using the <code><strong>log_statement</strong></code> and <code><strong>log_duration</strong></code> parameters in the <code><strong>postgresql.conf</strong></code> file.</li></ul><h2 id="235516cc-0da2-470c-9bba-4e24120796e6" class=""><strong>Reviewing Log Contents:</strong></h2><ul id="2d78ef24-125e-4aa6-903c-a2fe3888937e" class="bulleted-list"><li style="list-style-type:disc">Log files can be viewed using a text editor or command-line tools. The contents provide information about queries, errors, and other events. The most important log file is <code><strong>postgresql.log</strong></code>, but there may be other log files depending on the configuration</li></ul><ol type="1" id="acfee66c-ef01-4449-b352-436bcc3ce452" class="numbered-list" start="1"><li><strong>Location of Log Files:</strong><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1c8738b4-08aa-4f5f-a5b3-34b0ff5dafdd"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">By default, PostgreSQL log files are stored in the <code><strong>/var/log/postgresql/</strong></code> directory. The location can be configured in the <code><strong>postgresql.conf</strong></code> file using the <code><strong>log_directory</strong></code> parameter.</div></figure></li></ol><ol type="1" id="a48eef4a-64b6-41a9-94ec-7ce2b675099c" class="numbered-list" start="2"><li><strong>Log Levels:</strong><ul id="6f182239-08ad-44f6-ba10-f981a90a8067" class="bulleted-list"><li style="list-style-type:disc">PostgreSQL supports different log levels, including <mark class="highlight-blue"><strong>DEBUG, INFO, NOTICE, WARNING, ERROR, LOG,FATAL.</strong></mark> You can configure the level of detail you want in the logs using the <code><strong>log_statement</strong></code> and <code><strong>log_duration</strong></code> parameters in the <code><strong>postgresql.conf</strong></code> file.</li></ul></li></ol><ol type="1" id="8c022f54-5918-4018-a20d-0c97b58827d0" class="numbered-list" start="3"><li><strong>Rotation of Log Files:</strong><ul id="7fc007dc-b2b4-4a54-9d63-b875c829bb97" class="bulleted-list"><li style="list-style-type:disc">PostgreSQL supports log rotation to manage the size and number of log files. Parameters like <code><strong>log_rotation_age</strong></code> and <code><strong>log_rotation_size</strong></code> control when log files are rotated.</li></ul></li></ol><ol type="1" id="d4bc4060-72ff-4403-90c3-3a60f1fabab5" class="numbered-list" start="4"><li><strong>Security Considerations:</strong><ul id="266e4c09-6294-4201-9d7f-11bff15163c2" class="bulleted-list"><li style="list-style-type:disc">Ensure that access to log files is restricted to authorized users. Sensitive information, such as login credentials, might be logged, so it&#x27;s important to secure log files.</li></ul></li></ol><ol type="1" id="a77be1b3-f020-4cbc-9f8d-10ed355737ec" class="numbered-list" start="5"><li><strong>Log File Maintenance:</strong><ul id="b25ee99d-0f4d-4c35-8c72-555317c9d2ea" class="bulleted-list"><li style="list-style-type:disc">Periodically clean up old log files to free up disk space. Be cautious not to delete logs that might be needed for auditing or troubleshooting purposes.</li></ul></li></ol><ol type="1" id="e0fda1a3-f33b-46a8-8ba0-ca22c16bdea7" class="numbered-list" start="6"><li><strong>Integration with Monitoring Tools:</strong><ul id="0f0f34ab-f770-4502-b855-cfc0d446911d" class="bulleted-list"><li style="list-style-type:disc">Consider integrating PostgreSQL logs with external monitoring tools. Many organizations use log management solutions like <mark class="highlight-red"><strong>ELK Stack (Elasticsearch, Logstash, Kibana)</strong></mark> <strong><mark class="highlight-blue">will be covered soon,</mark></strong> for now you can use <strong>cat </strong>🙀 </li></ul></li></ol><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="20e9648e-e1a6-4eef-84c9-4a95a0f3a167"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">In Ubuntu, the PostgreSQL log files are typically located in the <code><strong>/var/log/postgresql/</strong></code><strong>  </strong> <strong>    after doing cat 😹 </strong></div></figure><figure id="e0524d10-234e-4ef9-9762-1de68d53cdde" class="image"><a href="Untitled%2025.png"><img style="width:624px" src="Untitled%2025.png"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="27517e62-fea1-4027-a06c-ba203c683794"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>to simply filter the the logs file you can use </strong><mark class="highlight-red"><strong>grep</strong></mark></div></figure><pre id="bbdffae1-dec8-476b-9d7e-63b160f41c45" class="code"><code> sudo cat /var/log/postgresql/postgresql-16-main.log | grep ERROR</code></pre><figure id="a383880a-996c-4750-93eb-6a911d077fc0" class="image"><a href="Untitled%2026.png"><img style="width:1207px" src="Untitled%2026.png"/></a></figure><h2 id="bd529ea3-80ac-4364-bb13-81ad35dc7254" class=""><strong><mark class="highlight-red">                                      THE END</mark></strong></h2></details></li></ul></details></li></ul></details></li></ul><h2 id="ebe95f8a-36b3-436e-b906-3766638d7d68" class=""><mark class="highlight-blue">Intermediate:</mark></h2><hr id="0a26114f-79d8-4551-af47-13f8da058508"/><p id="595cc0a5-cf9b-41f8-a6b0-dd5894e617a3" class=""><mark class="highlight-gray"> Open the toggle to view more details.</mark></p><ul id="e4bd83ac-4957-4b34-8153-ae352bc1cf31" class="toggle"><li><details open=""><summary><strong>Database Migration</strong></summary><ul id="7c4975e7-7cc6-4be9-b472-5409461fbbaf" class="toggle"><li><details open=""><summary><mark class="highlight-red"><strong>Theoretical </strong></mark></summary><h1 id="1d647526-58b7-4b93-93ce-0c87866141ea" class="">there are two main concepts about migration:</h1><h3 id="b8bef347-5835-4913-8004-dc498a423b07" class="">1. Database migration (migration for the data itself )</h3><p id="865533c4-2a5f-4071-80d6-55be2b0fb69b" class=""><strong>Data migration</strong> focuses on the transfer of data between databases or data storage systems,It deals with moving existing data from one database to another, often during database upgrades, data center relocations, or technology migrations. Here are the key points about data migration:</p><ul id="d11eb434-3874-4fca-b3cb-d549069a0a9f" class="bulleted-list"><li style="list-style-type:disc"><strong>Objective:</strong> The primary goal of data migration is to ensure that data is moved from the source to the target system accurately and with data integrity.</li></ul><ul id="3e83ec17-d866-4353-b0d6-cd3bb06124b5" class="bulleted-list"><li style="list-style-type:disc"><strong>Examples:</strong> Data migration tasks involve moving records from one database table to another, transforming data to fit the target schema, and dealing with data cleansing and validation.</li></ul><ul id="4a84769e-ba79-47b9-b862-8049e0415aa8" class="bulleted-list"><li style="list-style-type:disc"><strong>Tools:</strong> Data migration can involve various ETL (Extract, Transform, Load) tools, custom scripts, or specialized data migration software. The choice of tool depends on the complexity and volume of the data.</li></ul><ul id="a884855d-c25a-42d6-bc72-b1a08458dab5" class="bulleted-list"><li style="list-style-type:disc"><strong>Testing:</strong> Data migration requires extensive testing to ensure that data consistency, accuracy, and completeness are maintained throughout the process.</li></ul><ul id="cb5bc815-41d3-4f80-a099-44272154bd6e" class="bulleted-list"><li style="list-style-type:disc"><strong>Incremental Updates:</strong> Data migration may involve multiple phases or iterations to ensure that only changed or new data is transferred during subsequent migrations.</li></ul><ul id="eb0550d9-c958-4505-a1a8-7b27eb6c9db3" class="bulleted-list"><li style="list-style-type:disc"><strong>Rollbacks:</strong> Data migration should include rollback plans to recover from data transfer errors or to revert to the original state in case of issues.</li></ul><h3 id="d8d78c7c-da2c-4afb-b086-d289e0fcd55f" class="">Example:</h3><p id="b8511335-a620-4336-9f2c-2975ea7745f8" class="">Migrating data from one database system (e.g., MySQL) to another (e.g., PostgreSQL) is a common task, especially when you&#x27;re transitioning between database technologies or moving data to the cloud. There are various methods and tools available for performing data migration both on-premises and in the cloud. Here, I&#x27;ll provide an overview of data migration methods and tools for both scenarios:</p><p id="feff537a-267e-4fef-9de7-1dd48b38bbee" class=""><strong>On-Premises Data Migration:</strong></p><ol type="1" id="3706d888-97f7-49a0-a196-8ba086c282fb" class="numbered-list" start="1"><li><strong>ETL (Extract, Transform, Load) Tools:</strong><ul id="402793fd-bec0-42ce-9e8e-6b648f6bc252" class="bulleted-list"><li style="list-style-type:disc">ETL tools like Apache Nifi, Talend, and Apache NiFi can be used to extract data from the source database, transform it into the required format, and load it into the target database. These tools often provide graphical interfaces for defining data transformation and workflow logic.</li></ul></li></ol><ol type="1" id="c7de5dac-6b01-4e0a-a53e-d7757217007f" class="numbered-list" start="2"><li><strong>Custom Scripts:</strong><ul id="ea6cc82d-a425-4aad-abe1-3c872af26819" class="bulleted-list"><li style="list-style-type:disc">Writing custom scripts in languages like Python, Ruby, or SQL is a common approach for data migration. You can use libraries and APIs provided by both source and target databases to automate the data transfer. For example, in Python, you can use libraries like psycopg2 for PostgreSQL and pymysql for MySQL.</li></ul></li></ol><ol type="1" id="f2dfc1d4-205c-4629-b2d2-c0af19f751e2" class="numbered-list" start="3"><li><strong>Export-Import Utilities:</strong><ul id="c48962f4-5db1-4076-baa5-049a1f2b3fd4" class="bulleted-list"><li style="list-style-type:disc">Many database systems offer built-in export and import utilities. For example, you can use <code>mysqldump</code> to export data from MySQL and <code>pg_restore</code> to import data into PostgreSQL.</li></ul></li></ol><p id="2391b967-59f2-45a2-ac8d-869d8af3515b" class=""><strong>Cloud Data Migration:</strong></p><ol type="1" id="e91ae1aa-4c5a-478a-b06e-ac26e8151789" class="numbered-list" start="1"><li><strong>Cloud Data Migration Services:</strong><ul id="ff542a36-a8c6-429d-a9eb-317043eb375d" class="bulleted-list"><li style="list-style-type:disc">Major cloud providers like AWS, Azure, and Google Cloud offer data migration services for seamless transition to their respective cloud environments. For instance, AWS provides the AWS Database Migration Service (DMS) that supports migrating data between various databases,</li></ul><figure id="1d174273-7e4f-467c-84bc-ecd7ebb2541c" class="image"><a href="Untitled%2027.png"><img style="width:1251px" src="Untitled%2027.png"/></a></figure></li></ol><ol type="1" id="caf016d8-e612-4556-946b-d5a31789d5ea" class="numbered-list" start="2"><li><strong>Third-Party Cloud Migration Tools:</strong><ul id="05fbf103-4088-4343-a4fe-970356cb0fa8" class="bulleted-list"><li style="list-style-type:disc">There are third-party tools like Striim, Talend Cloud, and Alooma that specialize in cloud data migration. They offer features for connecting to various data sources, transforming data, and loading it into cloud databases.</li></ul></li></ol><ol type="1" id="d43f1527-81a6-414f-841c-4c2847573253" class="numbered-list" start="3"><li><strong>Cloud-native Data Transfer:</strong><ul id="6dea7ce0-09a3-4592-b109-9b5de9899c7f" class="bulleted-list"><li style="list-style-type:disc">Many cloud providers have data transfer mechanisms for moving data into their cloud databases. For example, AWS provides the AWS DataSync service for data transfer to Amazon RDS (Relational Database Service) instances.</li></ul><figure id="3bb18687-cdfa-4cd0-b93d-63b8b3b4c146" class="image"><a href="Untitled%2028.png"><img style="width:873px" src="Untitled%2028.png"/></a></figure></li></ol><ol type="1" id="acaef167-775e-4833-ac5d-b44e9a298772" class="numbered-list" start="4"><li><strong>Database Backup and Restore:</strong><ul id="bd926bd0-7696-4391-baf4-025b8750bfd0" class="bulleted-list"><li style="list-style-type:disc">Another approach is to take a backup of your on-premises database and restore it in the cloud database service. For example, you can export a MySQL database to a dump file, upload it to a cloud storage service, and then restore it into a cloud-based PostgreSQL database.</li></ul></li></ol><ol type="1" id="9a21746c-aca8-4938-9eab-f7585c8ec7f6" class="numbered-list" start="5"><li><strong>Database Synchronization:</strong><ul id="d95fd773-4507-443c-af4f-bca18af8c616" class="bulleted-list"><li style="list-style-type:disc">Synchronization tools like SymmetricDS can be used for continuous data replication and synchronization between on-premises and cloud databases. These tools can help you maintain data consistency during the migration process.</li></ul></li></ol><h3 id="f7a02f57-419d-4e52-9b35-0e6ba99e2b0a" class="">2. Database <span style="border-bottom:0.05em solid">schema </span>migration </h3><p id="896daa72-9f08-498d-a004-487c678e2aa8" class=""><strong>Database schema migration</strong> deals with changes to the structure and organization of the database. It encompasses modifications to tables, columns, indexes, constraints, and other structural elements. Here are some key points about schema migration:</p><ul id="15c80bc7-0f40-4b45-b5d9-947b38ed0a42" class="bulleted-list"><li style="list-style-type:disc"><strong>Objective:</strong> The primary goal of schema migration is to evolve the database schema to accommodate changes in the application&#x27;s data model or to improve the database structure.</li></ul><ul id="af2f4bc7-1d23-40d6-83af-0ccb075e8063" class="bulleted-list"><li style="list-style-type:disc"><strong>Examples:</strong> Schema migration tasks include creating and altering tables, modifying column data types, adding indexes, changing constraints, and adjusting the schema to reflect new requirements.</li></ul><ul id="88d62978-cda7-4ba9-82d0-59966204e30c" class="bulleted-list"><li style="list-style-type:disc"><strong>Tools:</strong> Frameworks like <strong>Laravel and Django </strong>provide tools to create and apply schema migrations. These tools generate migration files containing code that specifies how to make the schema changes.<pre id="2e21694c-43df-4068-9629-c52bf39d7aa5" class="code"><code>use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePostsTable extends Migration {
+    public function up() {
+        Schema::create(&#x27;posts&#x27;, function (Blueprint $table) {
+            $table-&gt;id(); // Auto-increment primary key
+            $table-&gt;string(&#x27;title&#x27;);
+            $table-&gt;text(&#x27;content&#x27;);
+            $table-&gt;timestamps(); // Created at and updated at timestamps
+        });
+    }
+
+    public function down() {
+        Schema::dropIfExists(&#x27;posts&#x27;);
+    }
+}</code></pre></li></ul><ul id="d8f16640-ce86-4fc2-9a96-b6e42911ef88" class="bulleted-list"><li style="list-style-type:disc"><strong>Version Control:</strong> Schema migration files are version-controlled. They provide a history of structural changes to the database, making it possible to roll back or forward to a specific schema state.</li></ul><ul id="df5ab7ae-30c4-4a75-b0ce-4c6a208b2795" class="bulleted-list"><li style="list-style-type:disc"><strong>Safety Measures:</strong> Schema migrations should be planned and executed carefully to avoid data loss or corruption. Many schema migration tools allow for data preservation during schema changes.</li></ul><ul id="4ced261f-a1ae-41ee-9b41-4e262cc03e13" class="bulleted-list"><li style="list-style-type:disc"><strong>Rollbacks:</strong> Most schema migration tools support rolling back schema changes to a previous state, allowing for error recovery.</li></ul><figure id="b941e0cf-c1b8-41f2-87a7-0cd029ab0d80" class="image"><a href="Untitled%2029.png"><img style="width:1172px" src="Untitled%2029.png"/></a></figure><h2 id="32e57af6-a297-4279-b285-fe66d4bf9fef" class="">Other migration tools :</h2><ol type="1" id="a10b94cc-60de-4ffa-b533-fb9ea79e7305" class="numbered-list" start="1"><li><strong>Liquibase:</strong><ul id="d776e010-0601-40a6-b6ea-87f88898e4e9" class="bulleted-list"><li style="list-style-type:disc">Liquibase is an open-source database schema migration library that allows you to manage your database changes through XML, YAML, JSON, or SQL. It supports a wide range of databases and provides features like change sets, rollback capabilities, and the ability to generate documentation for your database schema.</li></ul></li></ol><ol type="1" id="1a1d75cc-5697-4f8f-869a-bfec19fc9675" class="numbered-list" start="2"><li><strong>Flyway:</strong><ul id="a40fda96-8d76-4782-8296-593b6e3e1ace" class="bulleted-list"><li style="list-style-type:disc">Flyway is another open-source database migration tool that focuses on simplicity and ease of use. It uses SQL scripts or Java-based migrations to manage database changes. Flyway can be integrated into your build process and is known for its strong version control and migration history features.</li></ul></li></ol></details></li></ul><ul id="ecf26d40-353b-4608-bb7e-d260c7542407" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><strong>Practical(soon)</strong></mark></summary><p id="dec38694-842b-4de3-ba93-f762ec9b68a3" class="">
+</p></details></li></ul></details></li></ul><ul id="b6f1758c-4d2d-4eba-a06d-06eb5edea54d" class="toggle"><li><details open=""><summary><strong>Database replication </strong></summary><ul id="174f8973-0635-4d4c-b505-6928d98b9490" class="toggle"><li><details open=""><summary><mark class="highlight-red"><strong>Theoretical </strong></mark></summary><p id="c841fd12-3d3c-4075-a833-8f788be09f00" class=""><strong>Database Replication Concept:</strong></p><p id="8684ba17-2391-4253-ad6c-1931b7dc3596" class="">In database replication, data changes made in the source(master) database are propagated to one or more target databases(slaves), keeping them in sync. Replication is typically used for the following purposes:</p><ol type="1" id="00a8ee6f-2444-4aae-861a-324b8b9a9bf5" class="numbered-list" start="1"><li><strong>High Availability:</strong> Replicas can be used as failover targets. If the primary database becomes unavailable, a replica can take over to ensure continuous service.</li></ol><ol type="1" id="671c9475-0ab5-429c-89cb-1ebd8fb268e0" class="numbered-list" start="2"><li><strong>Load Balancing:</strong> Read-heavy workloads can be distributed among replicas, reducing the load on the primary database and improving read performance.</li></ol><ol type="1" id="716f9c06-d499-457f-8a11-885d9e967bdf" class="numbered-list" start="3"><li><strong>Disaster Recovery:</strong> Replicas at geographically distant locations can serve as backups in case of data center outages or disasters.</li></ol><p id="63924d42-bf7c-4202-a6ee-751fb2a3d5a3" class=""><strong>Common Types of Database Replication:</strong></p><h2 id="61fe306f-1196-495e-a007-d3cbb4c9d5af" class="">1. <strong>Master-Slave Replication:</strong></h2><ul id="e8dd6f7e-e807-42ed-af03-e127b190fcca" class="bulleted-list"><li style="list-style-type:disc">In this type of replication, there is one primary database (the master) and one or more secondary databases (the slaves).</li></ul><ul id="bdd8d5a9-f4cb-4d70-89dd-c54ed3c0ae0f" class="bulleted-list"><li style="list-style-type:disc">Writes are allowed on the master, and data changes are asynchronously propagated to the slaves.</li></ul><ul id="04f7df69-0179-4ee9-9e05-48721bb8e7e6" class="bulleted-list"><li style="list-style-type:disc">Slaves are read-only and are used for read scaling, backups, and fault tolerance.</li></ul><ul id="d4d780d0-a4c8-4fb5-8701-0e6678a3dbc4" class="bulleted-list"><li style="list-style-type:disc">MySQL&#x27;s replication is an example of master-slave replication.</li></ul><figure id="b76cf6f4-e0a3-49aa-ac39-32a5f41b2371" class="image"><a href="Untitled%2030.png"><img style="width:672px" src="Untitled%2030.png"/></a></figure><h1 id="822f34e9-acbc-4dd8-9278-dca37aca6349" class=""><strong>how does it work ?</strong></h1><p id="c8815b70-08bf-40f0-902e-1f353d9b57e6" class=""><strong>1. Configuration:</strong></p><ul id="226879fd-9c78-43cc-96aa-a9a8ae4fde56" class="bulleted-list"><li style="list-style-type:disc">A primary database server (the master) is set up as the primary source of data. This is where all write (insert, update, delete) operations are performed.</li></ul><ul id="1da8d8d7-84ac-4c89-bfc9-d6028a7c81b1" class="bulleted-list"><li style="list-style-type:disc">One or more secondary database servers (the slaves) are set up to replicate data from the master. Slaves are read-only and are used for read-heavy workloads, reporting, and backup purposes.</li></ul><p id="783c8b98-c971-4561-aa4b-bc83fcb1bf92" class=""><strong>2. Binlog (Binary Log):</strong></p><ul id="3b310744-da3e-41c1-9fe3-760d87905594" class="bulleted-list"><li style="list-style-type:disc">The master server maintains a binary log (often referred to as the binlog), which is a chronological record of all write operations that modify data. This log contains a record of each SQL statement that changes data, along with other information.</li></ul><ul id="26b245ee-791b-479b-bba4-2e579c9b4104" class="bulleted-list"><li style="list-style-type:disc">The binlog plays a crucial role in replication because it serves as the source of data changes that will be replicated to the slaves.</li></ul><p id="ac261a14-3579-4fc0-93f4-cbba8d45fa94" class=""><strong>3. Replication Process:</strong></p><p id="65b69d4d-2b2f-4d34-b6f2-27cedd2df1f0" class="">The replication process in a Master-Slave setup typically involves the following steps:</p><ul id="174125ad-0541-4189-890c-2e1dbd57608b" class="bulleted-list"><li style="list-style-type:disc">When a write operation (e.g., an INSERT, UPDATE, or DELETE statement) is executed on the master server, it is recorded in the binary log.</li></ul><ul id="6b8a2350-3812-4cad-90ae-c9efb2e3c6d7" class="bulleted-list"><li style="list-style-type:disc">The slave servers periodically connect to the master server and request a copy of the binary log, starting from a specific position (known as the replication position or log position). The slaves use this position to keep track of their progress in replicating changes.</li></ul><ul id="b5b22f07-3de3-49f9-a0bd-a9bdefc97722" class="bulleted-list"><li style="list-style-type:disc">The master server sends the binary log events to the slave servers over the network. The slaves receive the binary log data and apply the changes locally to their own databases.</li></ul><ul id="44957319-711e-420f-bebc-50690269543e" class="bulleted-list"><li style="list-style-type:disc">The slaves apply the changes in the same order they were recorded in the binary log. This ensures that the data on the slaves remains consistent with that on the master.</li></ul><ul id="7f2fdcfb-bde2-4c69-9b22-622fd5b5ba1e" class="bulleted-list"><li style="list-style-type:disc">Once a slave has caught up with the master (i.e., it has replicated all the changes up to the same position in the binary log), it continues to stay connected and periodically requests and applies new changes as they occur on the master.</li></ul><h1 id="1f3db8d9-6e60-4b0b-9f45-f23da2334773" class="">2.<strong>Master-Master Replication:</strong></h1><ul id="6fc02d5b-f33f-4e2f-a471-12778a9113bb" class="bulleted-list"><li style="list-style-type:disc">In master-master replication, there are two or more databases, and each can serve as both a master and a slave.</li></ul><ul id="aa0f9f33-5f65-41f9-aeda-07215e9cc23e" class="bulleted-list"><li style="list-style-type:disc">Master-master replication provides high availability, but it requires careful conflict resolution strategies.</li></ul><figure id="89920e82-701e-4aac-b100-5b06adfeb05b" class="image"><a href="Untitled%2031.png"><img style="width:1149px" src="Untitled%2031.png"/></a></figure><h1 id="ca5ef40f-5f39-4b94-951b-b71d6f87017d" class=""><strong>how does it work ?</strong></h1><p id="8bc5567d-dfac-45a1-88e5-d78854b3c731" class=""><strong>Configuration:</strong></p><ul id="6d9ea565-246b-4271-9baf-8f3f9dd2fcab" class="bulleted-list"><li style="list-style-type:disc">In a Master-Master replication setup, each database server is both a master and a slave. This means that each server can accept write (insert, update, delete) operations and replicate those changes to the other servers.</li></ul><p id="586b2588-4fb3-45d6-8d19-fac7148d40d6" class=""><strong>Data Changes and Replication:</strong></p><ol type="1" id="0aa9ed28-c827-46e1-98b2-58a729762ff3" class="numbered-list" start="1"><li><strong>Write Operations:</strong> When a write operation occurs on one of the master servers (referred to as Master A), the changes are recorded in its binary log, just like in a single-master setup.</li></ol><ol type="1" id="e7a192c1-c222-49bc-b911-329ba9b929de" class="numbered-list" start="2"><li><strong>Replication to Other Masters:</strong> The write operations from Master A&#x27;s binary log are then replicated to the other master server(s) (referred to as Master B and potentially more). This replication is typically asynchronous, which means that changes from Master A are propagated to Master B as quickly as possible but without waiting for acknowledgment.</li></ol><ol type="1" id="50cd2e13-e0f2-493a-be2f-3b8d3b696de7" class="numbered-list" start="3"><li><strong>Conflict Resolution:</strong> Master-Master replication introduces the potential for conflicts when write operations occur on both Master A and Master B simultaneously. Conflicts may arise when the same data is updated on both servers, and the order of these updates may differ between the masters.</li></ol><ol type="1" id="73ff4af6-e84d-4a3b-9bc4-ee7f00b18022" class="numbered-list" start="4"><li><strong>Conflict Resolution Strategies:</strong> Resolving conflicts is a complex task and depends on the specific database system and configuration. Common conflict resolution strategies include:<ul id="51211a9a-436f-4948-8982-60f79c612120" class="bulleted-list"><li style="list-style-type:disc">Time-based conflict resolution: Using timestamps to determine the order of updates.</li></ul><ul id="cd3f4a1c-1da5-473b-a3f4-a84a359f8797" class="bulleted-list"><li style="list-style-type:disc">Manual conflict resolution: Involving administrators to manually resolve conflicts.</li></ul><ul id="29528f22-9ced-4701-8d5c-c1f4ed1d8926" class="bulleted-list"><li style="list-style-type:disc">Application-level conflict resolution: Implementing custom application logic to handle conflicts.</li></ul></li></ol><p id="00505ccc-b81b-4277-81e2-05d9263939b5" class=""><strong>Data Consistency and Conflicts:</strong></p><ul id="cea9395f-51c2-444c-a80b-51fc95c56bfa" class="bulleted-list"><li style="list-style-type:disc">Ensuring data consistency in a Master-Master replication setup is challenging due to potential conflicts. Conflicts can result in data inconsistencies, and resolving them correctly is crucial.</li></ul></details></li></ul><ul id="3c88f09b-2b79-4de7-872a-36841f5a485e" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><strong>Practical (soon)</strong></mark></summary><p id="da4cf369-e28d-4266-922e-2e95dfdf0bb0" class="">
+</p></details></li></ul></details></li></ul><ul id="41bbe32f-f3a4-4207-b671-a5ded914fbe4" class="toggle"><li><details open=""><summary><strong>Database load Balancing (HA proxy)</strong></summary><ul id="afb3ec38-6f4f-4b08-bc6e-6ccf088cbb31" class="toggle"><li><details open=""><summary><mark class="highlight-red"><strong>Theoretical </strong></mark></summary><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0ec5cae5-f382-4672-93ad-a1674bfabe6f"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%">Database load balancing, often implemented using tools like <mark class="highlight-red"><strong>HAProxy,</strong></mark> is a critical component of high availability and performance optimization in database systems. It distributes incoming database requests across multiple database servers to ensure efficient resource utilization, fault tolerance, and improved query response times. Here&#x27;s a detailed explanation of database load balancing with HAProxy:</div></figure><p id="aad9701f-31f5-450d-9310-1dab292b386b" class="">
+</p><figure id="40efd10b-e0b0-41ce-b328-21b23b9411c9" class="image"><a href="Untitled%2032.png"><img style="width:814px" src="Untitled%2032.png"/></a></figure><p id="252a54d6-a2b9-4b6d-aa71-696d129c8dd0" class=""><strong>Key Concepts:</strong></p><ol type="1" id="2d0160f9-4aec-47cf-87e2-0524c0d844b2" class="numbered-list" start="1"><li><strong>Load Balancer:</strong> HAProxy is a widely used open-source load balancer that can distribute incoming database traffic to a pool of database servers based on various algorithms and rules.1. Load balancers that work in Layer 4 make routing decisions based on IP addresses and UDP or TCP ports.These types of load balancers can only make decisions based on <strong>traffic data</strong>, which is why it’s faster than load balancers in Layer 7. Some examples of load balancers that can operate in Layer 4 are HAProxy and Nginx.</li></ol><ol type="1" id="8a2c6e48-5b2e-4d8d-b6ec-7ea475a56b67" class="numbered-list" start="2"><li><strong>Pool of Database Servers:</strong> A pool of database servers consists of multiple database instances (e.g., MySQL, PostgreSQL, or others) that host the same data and serve as target destinations for incoming requests.</li></ol><ol type="1" id="4a884518-a152-407f-82d8-977073671d73" class="numbered-list" start="3"><li><strong>Balancing Algorithms:</strong> HAProxy uses algorithms (e.g., round-robin, least connections, source IP hashing) to determine how to distribute incoming requests to the database servers.</li></ol><ol type="1" id="91cfd42f-a91f-45ce-b6d2-3de0a62aee5d" class="numbered-list" start="4"><li><strong>Health Checks:</strong> Load balancers continuously monitor the health of database servers and route traffic only to healthy servers. Unhealthy servers are taken out of rotation until they recover.</li></ol><p id="ef9a6f62-222c-47f4-a818-e794a465d46d" class=""><strong>How Database Load Balancing with HAProxy Works:</strong></p><ol type="1" id="7f262277-f02f-4033-8d5a-f989be67ca8d" class="numbered-list" start="1"><li><strong>Client Sends a Request:</strong> A client (e.g., an application or user) sends a database request to the load balancer&#x27;s IP address and port. The load balancer listens for incoming connections.</li></ol><ol type="1" id="b7bb0997-c3b2-4040-913d-381d9c5d4a42" class="numbered-list" start="2"><li><strong>Load Balancer Receives the Request:</strong> The load balancer receives the incoming request and assesses the current state of the database servers.</li></ol><ol type="1" id="4f079d7a-4491-450a-9991-e272bc8b3b60" class="numbered-list" start="3"><li><strong>Request Distribution:</strong> Using a load balancing algorithm (e.g., round-robin or least connections), the load balancer selects one of the healthy database servers as the target for the request.</li></ol><ol type="1" id="8795db1a-3b11-4306-a4eb-2f0142660e2b" class="numbered-list" start="4"><li><strong>Request Forwarding:</strong> The load balancer forwards the client&#x27;s request to the selected database server. The database server processes the request and sends a response back to the load balancer.</li></ol><ol type="1" id="4e43b1ba-a425-43b1-b077-87842a4d806d" class="numbered-list" start="5"><li><strong>Response Sent to Client:</strong> The load balancer receives the response from the database server and forwards it to the client that initiated the request. The client receives the response as if it had interacted directly with the database server.</li></ol><ol type="1" id="eb3f2ac5-dc26-4ca9-8423-927f4cc4792a" class="numbered-list" start="6"><li><strong>Health Checks:</strong> The load balancer continually monitors the health of the database servers by sending health checks (e.g., ping or HTTP requests). If a server fails a health check, the load balancer marks it as unhealthy and stops routing traffic to it.</li></ol><ol type="1" id="3e02df34-6edf-4fa5-89c9-338db612ca76" class="numbered-list" start="7"><li><strong>Server Failover:</strong> In the event of a database server failure, the load balancer automatically redistributes the requests to the healthy servers. This ensures that the application experiences minimal downtime and can continue to function.</li></ol><p id="beef6f1a-8d24-4428-b5f7-d273c1746e87" class=""><strong>Benefits of Database Load Balancing with HAProxy:</strong></p><ol type="1" id="0e0e8cb7-f222-4580-b7b2-ebab4af6890b" class="numbered-list" start="1"><li><strong>Improved Performance:</strong> By distributing database requests across multiple servers, database load balancing ensures that no single server is overwhelmed with incoming traffic, resulting in better query response times.</li></ol><ol type="1" id="7a3aff67-b4a9-4b6f-9823-d71fc3677fca" class="numbered-list" start="2"><li><strong>High Availability:</strong> If one database server fails, the load balancer can redirect traffic to healthy servers, ensuring continuous service availability.</li></ol><ol type="1" id="2b216d09-5f07-44f2-be83-29c7772045a2" class="numbered-list" start="3"><li><strong>Scalability:</strong> As your application grows, you can add more database servers to the pool to handle increased traffic and data volume.</li></ol><ol type="1" id="9d687da5-bd89-4513-af81-aad98af0d846" class="numbered-list" start="4"><li><strong>Fault Tolerance:</strong> Load balancers can automatically detect and respond to server failures, reducing the impact of server outages.</li></ol><ol type="1" id="dc10f931-9820-4ef1-acaf-f80d81c7126c" class="numbered-list" start="5"><li><strong>Security:</strong> Load balancers can act as an additional security layer by hiding the database server&#x27;s IP addresses and preventing direct access.</li></ol><p id="5cc16141-a261-4255-8453-3fac37deb180" class=""><strong>Challenges and Considerations:</strong></p><ol type="1" id="2af5cc6e-1b12-4c7f-a1df-68b4170844c0" class="numbered-list" start="1"><li><strong>Session Persistence:</strong> Some database systems may require session persistence, where a user&#x27;s requests must be routed consistently to the same database server for the duration of a session.</li></ol><ol type="1" id="f41b3fa2-8d77-4761-875f-ada0f8dc6c9f" class="numbered-list" start="2"><li><strong>Configuration:</strong> Proper configuration of the load balancer, including health checks, balancing algorithms, and failover settings, is crucial for optimal performance and reliability.</li></ol><ol type="1" id="f0d67934-04ec-4d54-89b9-b1adf65c68bb" class="numbered-list" start="3"><li><strong>Monitoring:</strong> Monitoring the health of database servers and the performance of the load balancer is essential for early detection of issues.</li></ol><ol type="1" id="6915ac3b-cc8b-4677-9259-07e4886a1802" class="numbered-list" start="4"><li><strong>SSL Termination:</strong> If your application uses SSL/TLS encryption, the load balancer may need to handle SSL termination and encryption.</li></ol><ol type="1" id="545a0ccc-b444-46c7-a1db-54556d789774" class="numbered-list" start="5"><li><strong>Data Consistency:</strong> Load balancing should not negatively impact data consistency. Ensure that all database servers have consistent data.</li></ol><h2 id="7753927b-31e1-46d9-803e-f00b7de8eb2a" class="">T<strong>he main deference between the traditional proxy and Ha proxy is the following :</strong></h2><p id="ba80a67e-ca57-4cac-a1b7-15c0677e658d" class="">
+</p><h3 id="3bc14862-6e95-4c71-ab3c-5f2fa2c26bdd" class="">1.<strong>Routing Rules: making the HA load balancer rout traffic based on its query type </strong></h3><h3 id="dc64d88b-6ce8-4b27-9f3d-b623a7342d87" class="">Define routing rules based on the type of query. For example:</h3><ul id="b759b5ca-e2ab-4ae4-83b4-b1690e91eb0c" class="bulleted-list"><li style="list-style-type:disc"><strong>Read queries </strong>(SELECT statements) can be directed to the read servers. You might use a round-robin or least-connections algorithm to distribute the load evenly among read servers.</li></ul><ul id="48394770-cc8f-4e92-845d-dbb1c6e5aa9e" class="bulleted-list"><li style="list-style-type:disc"><strong>Write queries</strong> (INSERT, UPDATE, DELETE) should be directed to the write server (master). HAProxy can be configured to route all write queries to the master server.</li></ul><h3 id="5e1688db-581b-49c6-b8b2-cd1537fa7270" class="">2.it can provide you with multiples Endpoints based on traffic type .</h3><p id="58a3c67d-5a60-4abb-ab68-e27538756ab8" class=""><strong>For example : </strong></p><ul id="82ef9468-607a-4977-bbd2-4a97c16d1c74" class="bulleted-list"><li style="list-style-type:disc">the end point in the application itself it shoud be <strong>Read/write</strong> end point , cause the application need to select and add new data to the database.</li></ul><ul id="c69ea0a7-053c-4523-935d-6f4365850ef2" class="bulleted-list"><li style="list-style-type:disc">analysis team that need just to read data to make some analysis on it they just need to select data stored in the database so we must provide them with <strong>read -only end point</strong></li></ul><h3 id="5f301cf0-cd51-4790-b793-a5a7f26498f9" class="">3.<strong>(Session Persistence):</strong></h3><h3 id="a43eb528-99d4-4cc0-8e36-1edf46d0b3fc" class=""><strong>Session Persistence:</strong></h3><ul id="2a6b75f5-02d1-4e0f-94fd-aa697c9b0aaf" class="bulleted-list"><li style="list-style-type:disc">In certain applications, maintaining session persistence is crucial for a seamless user experience. Session persistence ensures that a user&#x27;s requests are consistently directed to the same database server throughout the duration of their session.</li></ul><ul id="e8a8a8a0-9482-49e5-a7d5-3b44cbb50f36" class="bulleted-list"><li style="list-style-type:disc">For example, if an application relies on user sessions, where session data is stored on a specific database server, it&#x27;s essential that subsequent requests from the same user are routed to the server holding their session data. This is often necessary for maintaining login sessions, shopping carts, or other personalized user interactions.</li></ul><ul id="9cd6b5c3-de9b-4cb2-97f3-2faa44b59c43" class="bulleted-list"><li style="list-style-type:disc">Load balancers, including HAProxy, can be configured to handle session persistence by using techniques such as cookie-based affinity or IP hash-based routing. These methods ensure that requests from a particular client are consistently directed to the same database server, maintaining data coherence for the user session.</li></ul><ul id="fb7a62f5-d052-4ca4-baf9-bddae2fc3c11" class="bulleted-list"><li style="list-style-type:disc">When implementing database load balancing, it&#x27;s important to consider the specific requirements of the application and configure the load balancer accordingly to ensure proper session persistence.</li></ul><h2 id="d7a36620-d183-413b-9944-a231ba68e96c" class="">In cloud provider there is a RDS proxy that can be used to do the same as HA proxy </h2><figure id="f9b56621-31df-4c71-9631-80712007b0b0" class="image"><a href="Untitled%2033.png"><img style="width:770px" src="Untitled%2033.png"/></a></figure></details></li></ul><ul id="396b718e-5a84-431c-a6dd-6a60d472149e" class="toggle"><li><details open=""><summary><mark class="highlight-blue"><strong>Practical (soon)</strong></mark></summary></details></li></ul></details></li></ul><h2 id="e7539ea5-6e4a-4380-b93f-a399d2762d9a" class=""><mark class="highlight-teal">Advanced:</mark></h2><hr id="ffe898eb-fdc0-4c76-a0bb-6d3c5b866344"/><p id="6ce9455e-7cae-48d8-b077-c61a27a012c6" class=""><mark class="highlight-gray"> Open the toggle to view more details.</mark></p><ul id="2d0179de-3173-4dc9-a182-2c13ee52f7aa" class="toggle"><li><details open=""><summary><strong>Database clustering (with demos)</strong></summary></details></li></ul><ul id="d93b3c4e-8042-43ad-90b4-5129fa988da8" class="toggle"><li><details open=""><summary><strong>Database Sharding (with demos)</strong></summary></details></li></ul><h1 id="ad92ce5d-799c-4c7b-a549-e1f913487f8b" class=""><mark class="highlight-blue">Con</mark><mark class="highlight-red">ta</mark><mark class="highlight-yellow">ct</mark> <mark class="highlight-teal">me</mark><mark class="highlight-red"> :</mark></h1><div id="1811b10e-bf77-4acd-bcbc-76bdf487033a" class="column-list"><div id="f3688728-1d79-4cb2-b68a-e7487eca8a9f" style="width:25%" class="column"><figure id="bf8bfda0-f1f3-4c00-a824-2ddd39076e03" class="image"><a href="Untitled.jpeg"><img style="width:192px" src="Untitled.jpeg"/></a></figure><h3 id="6cfab4b5-d8a1-42ad-97c6-baa1c330b8d2" class=""><strong>   Ahmed Adam </strong></h3></div><div id="0215849c-c055-48ac-991f-77a6019c2e5a" style="width:75%" class="column"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e7d49162-0135-40a4-9bca-5554d739185d"><div style="font-size:1.5em"><img class="icon" src="icons8-gmail-48.png"/></div><div style="width:100%">ahmed.adam.1597@gmail.com</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0c7df2af-bf44-4a73-8241-32f5489a5bf5"><div style="font-size:1.5em"><img class="icon" src="icons8-linkedin-48.png"/></div><div style="width:100%"><a href="https://www.linkedin.com/in/aahmed-adam/">https://www.linkedin.com/in/aahmed-adam</a></div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="482265ee-b9a5-4410-b1f5-0fe8ad1973d9"><div style="font-size:1.5em"><img class="icon" src="icons8-facebook-48.png"/></div><div style="width:100%"><a href="https://www.facebook.com/itsAAAdam/">https://www.facebook.com/itsAAAdam</a></div></figure><p id="7399c49f-cfe9-4382-a241-1474578d6e5c" class="">
+</p></div></div><p id="658bfcd0-e13d-4f85-b46b-fc0c925ba53f" class="">
+</p><p id="dc904ed7-e615-4db0-8e1d-9b154140028f" class="">
+</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
